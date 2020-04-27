@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Link from 'next/link'
 import Head from 'next/head'
-import styles from './styles.module.scss'
+import styles from './layout.module.scss'
 
 type Props = {
   title?: string
@@ -18,22 +18,20 @@ const Layout: React.FunctionComponent<Props> = ({
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <header>
-        <nav>
+        <nav className={styles.navBar}>
           <Link href="/">
-            <a>Home</a>
-          </Link>{' '}
-        |{' '}
+            <a className={styles.navLink}>Home</a>
+          </Link>
           <Link href="/about">
-            <a>About</a>
-          </Link>{' '}
-        |{' '}
+            <a className={styles.navLink}>About</a>
+          </Link>
           <Link href="/users">
-            <a>Users List</a>
-          </Link>{' '}
+            <a className={styles.navLink}>Users List</a>
+          </Link>
           <Link href="/profile">
-            <a>Profile</a>
-          </Link>{' '}
-        | <a href="/api/users">Users API</a>
+            <a className={styles.navLink}>Profile</a>
+          </Link>
+          <a href="/api/users">Users API</a>
         </nav>
       </header>
       <div className={styles.container}>

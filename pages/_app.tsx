@@ -1,4 +1,5 @@
 import { AppProps } from 'next/app'
+import '../src/scss/styles.scss'
 
 // import * as firebase from 'firebase'
 // const firebaseConfig = {

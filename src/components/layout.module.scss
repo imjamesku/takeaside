@@ -1,0 +1,18 @@
+@import '../scss/config';
+.navBar {
+    background-color: $primary-color;
+    padding: 1rem;
+    height: 3rem;
+    display: grid;
+    grid-auto-flow: column;
+    .navLink {
+        text-decoration: none;
+        color: black;
+    }
+}
+.container {
+    margin: 0 auto;
+    padding: 2rem;
+    width: 60%;
+    max-width: 900px;
+}

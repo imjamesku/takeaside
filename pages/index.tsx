@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Layout from '../src/components/Layout'
 import { Topic } from '../src/types/Topics'
 import TopicBox from '../src/components/TopicBox/TopicBox'
+import styles from './index.module.scss'
 
 const IndexPage = () => {
   const dummyData: Topic[] = [
@@ -43,10 +44,9 @@ const IndexPage = () => {
     <Layout title="Home | Next.js + TypeScript Example">
       <h1>Which side is BETTER? 👋</h1>
       <p>
-        <Link href="/about">
-          <a>About</a>
-        </Link>
-        {dummyData.map((topicData, index) => <TopicBox key={index} {...topicData} />)}
+        <div className={styles.topicList}>
+          {dummyData.map((topicData, index) => <TopicBox key={index} {...topicData} />)}
+        </div>
       </p>
     </Layout>
   )
