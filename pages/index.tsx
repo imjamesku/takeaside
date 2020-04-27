@@ -46,7 +46,7 @@ const IndexPage = () => {
         <Link href="/about">
           <a>About</a>
         </Link>
-        {dummyData.map(topicData => <TopicBox {...topicData} />)}
+        {dummyData.map((topicData, index) => <TopicBox key={index} {...topicData} />)}
       </p>
     </Layout>
   )

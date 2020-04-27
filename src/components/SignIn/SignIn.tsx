@@ -1,14 +1,18 @@
 import React, { useState, ChangeEvent } from "react";
 import Link from 'next/link'
-import { signInWithGoogle } from "../../config/firebase";
+import { signInWithGoogle, auth } from "../../config/firebase";
 
 const SignIn = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<string>('');
     const signInWithEmailAndPasswordHandler =
         (event: React.MouseEvent<HTMLButtonElement>, email: string, password: string) => {
             event.preventDefault();
+            auth.signInWithEmailAndPassword(email, password).catch(error => {
+                setError("Error signing in with password and email!");
+                console.error("Error signing in with password and email", error);
+            });
         };
 
     const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {

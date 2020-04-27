@@ -1,5 +1,4 @@
 import { AppProps } from 'next/app'
-import UserProvider from '../src/providers/UserProvider'
 
 // import * as firebase from 'firebase'
 // const firebaseConfig = {
@@ -18,9 +17,7 @@ import UserProvider from '../src/providers/UserProvider'
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
-        <UserProvider>
-            <Component {...pageProps} />
-        </UserProvider>
+        <Component {...pageProps} />
     )
 }
 
