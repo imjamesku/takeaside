@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import Layout from '../components/Layout'
-import { Topic } from '../types/Topics'
-import TopicBox from '../components/TopicBox/TopicBox'
+import Layout from '../src/components/Layout'
+import { Topic } from '../src/types/Topics'
+import TopicBox from '../src/components/TopicBox/TopicBox'
 
 const IndexPage = () => {
   const dummyData: Topic[] = [

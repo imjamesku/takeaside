@@ -3,8 +3,8 @@ import { GetStaticProps, GetStaticPaths } from 'next'
 
 import { User } from '../../interfaces'
 import { sampleUserData } from '../../utils/sample-data'
-import Layout from '../../components/Layout'
-import ListDetail from '../../components/ListDetail'
+import Layout from '../../src/components/Layout'
+import ListDetail from '../../src/components/ListDetail'
 
 type Props = {
   item?: User
@@ -29,7 +29,7 @@ export default class StaticPropsDetail extends React.Component<Props> {
       <Layout
         title={`${
           item ? item.name : 'User Detail'
-        } | Next.js + TypeScript Example`}
+          } | Next.js + TypeScript Example`}
       >
         {item && <ListDetail item={item} />}
       </Layout>
