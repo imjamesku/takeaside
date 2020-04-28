@@ -1,4 +1,64 @@
+@import '../../scss/config';
+$left-color: #2187e7;
+$right-color: $primary-color;
 .trendBox {
     background-color: white;
-    padding: 1rem;
+    padding: 1rem 1rem 0.6rem;
+    .content {
+        margin: 0.5rem 0 0.5rem;
+    }
+    .contentTextAndButtons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        button {
+            font-weight: bold;
+            padding: 0.3rem;
+            border-width: 0;
+            // font-size: 1rem;
+            cursor: pointer;
+            color: white;
+        }
+        .left {
+            padding: 1rem 0;
+            justify-self: left;
+            display: flex;
+            flex-wrap: wrap;
+            button {
+                background-color:$left-color;
+                margin-right: 0.5rem;
+            }
+        }
+        .right {
+            button {
+                background-color: $right-color;
+                margin-left: 0.5rem;
+            }
+            padding: 1rem 0;
+            justify-self: right;
+            display: flex;
+            flex-wrap: wrap-reverse;
+        }
+    }
+    .bar {
+        // background-color: #353b48;
+        background-color: $right-color;
+        display: block;
+        height: 5px;
+        // border: 1px solid rgba(0, 0, 0, 0.3);
+        border-radius: 3px;
+        overflow: hidden;
+        // box-shadow: 0 0 3px #2187e7b3;
+        .leftSide {
+            height: 5px;
+            float: left;
+            background-color: $left-color;
+            width:90%;
+        }
+    }
+    .bottom {
+        color: rgb(99, 99, 99);
+        font-size: 0.9rem;
+        display: flex;
+        justify-content: space-between;
+    }
 }

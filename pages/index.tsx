@@ -9,12 +9,12 @@ const IndexPage = () => {
     {
       question: "Cat or dog?",
       firstOption: {
-        name: "dog",
-        users: ["james", "tide", "kevin"]
+        name: "Dogs are the best!",
+        users: ["kevin"]
       },
       secondOption: {
-        name: "cat",
-        users: ["james", "tide", "kevin"]
+        name: "Cats are cool",
+        users: ["james", "tide"]
       }
     },
     {
@@ -25,18 +25,29 @@ const IndexPage = () => {
       },
       secondOption: {
         name: "cat",
-        users: ["james", "tide", "kevin"]
+        users: []
       }
     },
     {
       question: "Cat or dog?",
       firstOption: {
         name: "dog",
-        users: ["james", "tide", "kevin"]
+        users: ["kevin"]
       },
       secondOption: {
         name: "cat",
-        users: ["james", "tide", "kevin"]
+        users: ["james", "tide"]
+      }
+    },
+    {
+      question: "Cat or dog?",
+      firstOption: {
+        name: "dog",
+        users: []
+      },
+      secondOption: {
+        name: "cat",
+        users: []
       }
     }
   ]
