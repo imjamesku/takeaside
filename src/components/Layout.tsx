@@ -20,6 +20,9 @@ const Layout: React.FunctionComponent<Props> = ({
       <header>
         <nav className={styles.navBar}>
           <Link href="/">
+            <a className={styles.brand}>pickaside.com</a>
+          </Link>
+          <Link href="/">
             <a className={styles.navLink}>Home</a>
           </Link>
           <Link href="/about">
