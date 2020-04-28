@@ -64,7 +64,7 @@ const IndexPage = () => {
   ]
   return (
     <Layout title="Home | Next.js + TypeScript Example">
-      <h1>Which side is BETTER? 👋</h1>
+      <h1>Which side is BETTER?</h1>
       <p>
         <div className={styles.topicList}>
           {dummyData.map((topicData, index) => <TopicBox key={index} {...topicData} />)}

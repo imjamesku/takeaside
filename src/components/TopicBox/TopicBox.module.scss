@@ -11,7 +11,7 @@ $right-color: $primary-color;
     }
     .contentTextAndButtons {
         display: grid;
-        margin-bottom: 1rem;
+        margin-bottom: 1.2rem;
         grid-template-columns: 1fr 1fr;
         button {
             font-weight: bold;
@@ -57,9 +57,22 @@ $right-color: $primary-color;
             background-color: $left-color;
             .percentage {
                 position: absolute;
-                width: 1rem;
-                left: calc(40%);
-                top: -20px
+                color: white;
+                padding: 0.2rem;
+                left: calc(50% - 20px);
+                top: -31px;
+                // color: white;
+                background-color: $left-color;
+                &::after {
+                    content: '';
+                    width: 10px;
+                    height: 10px;
+                    top: calc(100% - 5px);
+                    left: calc(50% - 5px);
+                    background-color:$left-color;
+                    position: absolute;
+                    transform: rotate(45deg);
+                }
             }
 
         }
@@ -70,9 +83,22 @@ $right-color: $primary-color;
             background-color: $right-color;
             .percentage {
                 position: absolute;
-                width: 1rem;
+                // width: 1rem;
                 left: calc(50% - 20px);
-                top: -20px
+                top: -31px;
+                color: white;
+                padding: 0.2rem;
+                background-color: $right-color;
+                &::after {
+                    content: '';
+                    width: 10px;
+                    height: 10px;
+                    top: calc(100% - 5px);
+                    left: calc(50% - 5px);
+                    background-color:$right-color;
+                    position: absolute;
+                    transform: rotate(45deg);
+                }
             }
         }
     }
