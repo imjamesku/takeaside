@@ -19,9 +19,17 @@ const TopicBox = (props: Topic) => {
                         <button className={styles.vote}>VOTE</button>
                     </div>
                 </div>
-                <div className={styles.bar} style={leftLength + rightLength > 0 ? {} : { backgroundColor: '#353b48' }}>
+                <div className={styles.bar}>
                     {leftLength + rightLength > 0 &&
-                        <div className={styles.leftSide} style={{ width: `${leftLength / (leftLength + rightLength) * 100}%` }}></div>
+                        <>
+                            <div className={styles.leftSide} style={{ width: `${leftLength / (leftLength + rightLength) * 100}%` }}>
+                                <p className={styles.percentage}>50%</p>
+                            </div>
+                            <div className={styles.rightSide} style={{ width: `${rightLength / (leftLength + rightLength) * 100}%` }}>
+                                <span className={styles.percentage}>50%</span>
+                            </div>
+                        </>
+
                     }
                 </div>
             </div>

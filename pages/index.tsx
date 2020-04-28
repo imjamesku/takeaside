@@ -32,6 +32,17 @@ const IndexPage = () => {
       question: "Cat or dog?",
       firstOption: {
         name: "dog",
+        users: []
+      },
+      secondOption: {
+        name: "cat",
+        users: ["james", "tide", "kevin"]
+      }
+    },
+    {
+      question: "Cat or dog?",
+      firstOption: {
+        name: "dog",
         users: ["kevin"]
       },
       secondOption: {
