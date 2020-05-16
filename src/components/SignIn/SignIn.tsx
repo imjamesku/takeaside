@@ -1,97 +1,69 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, useEffect } from "react";
+import {useSelector, useDispatch} from 'react-redux'
 import Link from 'next/link'
-import { RootState } from '../../reducers/index'
+import {RootState} from '../../_reducers'
+
+import {userActions} from '../../_actions/user.actions'
 
 
 
 
 const SignIn = () => {
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const [error, setError] = useState<string>('');
-    // const signInWithEmailAndPasswordHandler =
-    //     (event: React.MouseEvent<HTMLButtonElement>, email: string, password: string) => {
-    //         event.preventDefault();
-    //         auth.signInWithEmailAndPassword(email, password).catch(error => {
-    //             setError("Error signing in with password and email!");
-    //             console.error("Error signing in with password and email", error);
-    //         });
-    //     };
+    const [inputs, setInputs] = useState({
+        username: '',
+        password: ''
+    });
+    const [submitted, setSubmitted] = useState(false);
+    const { username, password } = inputs;
+    const loggingIn = useSelector((state: RootState) => state.authentication.loggingIn);
+    const dispatch = useDispatch();
 
-    const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.currentTarget;
+    // reset login status
+    useEffect(() => { 
+        dispatch(userActions.logout()); 
+    }, []);
 
-        if (name === 'userEmail') {
-            setEmail(value);
+    function handleChange(e) {
+        const { name, value } = e.target;
+        setInputs(inputs => ({ ...inputs, [name]: value }));
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+
+        setSubmitted(true);
+        if (username && password) {
+            dispatch(userActions.login(username, password));
         }
-        else if (name === 'userPassword') {
-            setPassword(value);
-        }
-    };
-
-    const loginWithGoogle = () => {
-        firebase.login({ provider: 'google', type: 'popup' })
     }
 
     return (
-        <div className="mt-8">
-            <h1 className="text-3xl mb-2 text-center font-bold">Sign In</h1>
-            <div className="border border-blue-400 mx-auto w-11/12 md:w-2/4 rounded py-8 px-4 md:px-8">
-                {error !== null && <div className="py-4 bg-red-600 w-full text-white text-center mb-3">{error}</div>}
-                {/* <form className="">
-                    <label htmlFor="userEmail" className="block">
-                        Email:
-                    </label>
-                    <input
-                        type="email"
-                        className="my-1 p-1 w-full"
-                        name="userEmail"
-                        value={email}
-                        placeholder="E.g: faruq123@gmail.com"
-                        id="userEmail"
-                        onChange={(event) => onChangeHandler(event)}
-                    />
-                    <label htmlFor="userPassword" className="block">
-                        Password:
-                    </label>
-                    <input
-                        type="password"
-                        className="mt-1 mb-3 p-1 w-full"
-                        name="userPassword"
-                        value={password}
-                        placeholder="Your Password"
-                        id="userPassword"
-                        onChange={(event) => onChangeHandler(event)}
-                    />
-                    <button className="bg-green-400 hover:bg-green-500 w-full py-2 text-white" onClick={(event) => { signInWithEmailAndPasswordHandler(event, email, password) }}>
-                        Sign in
+        <div className="col-lg-8 offset-lg-2">
+            <h2>Login</h2>
+            <form name="form" onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label>Username</label>
+                    <input type="text" name="username" value={username} onChange={handleChange} className={'form-control' + (submitted && !username ? ' is-invalid' : '')} />
+                    {submitted && !username &&
+                        <div className="invalid-feedback">Username is required</div>
+                    }
+                </div>
+                <div className="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" value={password} onChange={handleChange} className={'form-control' + (submitted && !password ? ' is-invalid' : '')} />
+                    {submitted && !password &&
+                        <div className="invalid-feedback">Password is required</div>
+                    }
+                </div>
+                <div className="form-group">
+                    <button className="btn btn-primary">
+                        {loggingIn && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                        Login
                     </button>
-                </form> */}
-                <p className="text-center my-3">or</p>
-                {
-                    !isLoaded(auth)
-                        ? <span>Loading...</span>
-                        : isEmpty(auth)
-                            // <GoogleButton/> button can be used instead
-                            ? <button onClick={loginWithGoogle}>Login With Google</button>
-                            : <pre>{JSON.stringify(auth, null, 2)}</pre>
-                }
-                <button onClick={loginWithGoogle}>Login With Google</button>
-                <p className="text-center my-3">
-                    Don't have an account?{" "}
-                    <Link href="/signup" >
-                        <a className="text-blue-500 hover:text-blue-600">Sign up here</a>
-
-                    </Link>{" "}
-                    <br />{" "}
-                    <Link href="/passwordReset" >
-                        <a className="text-blue-500 hover:text-blue-600">
-                            Forgot Password?
-                        </a>
-                    </Link>
-                </p>
-            </div>
+                    <Link href="/register"><a>Register</a></Link>
+                </div>
+            </form>
         </div>
-    );
+    )
 };
 export default SignIn;
