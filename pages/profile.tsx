@@ -1,7 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { auth } from "../src/config/firebase"
 import Router from 'next/router'
-import withAuth from '../src/components/helpers/withAuth'
 import Layout from "../src/components/Layout";
 
 const ProfilePage = () => {
@@ -24,9 +22,9 @@ const ProfilePage = () => {
                         <h3 className="italic">"123.dasd.com"</h3>
                     </div>
                 </div>
-                <button onClick={() => auth.signOut()} className="w-full py-3 bg-red-600 mt-4 text-white">Sign out</button>
+                {/* <button onClick={() => auth.signOut()} className="w-full py-3 bg-red-600 mt-4 text-white">Sign out</button> */}
             </div>
         </Layout>
     )
 };
-export default withAuth(ProfilePage);
+export default ProfilePage;

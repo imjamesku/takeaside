@@ -1,26 +1,26 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import { generateUserDocument, auth } from '../../config/firebase'
+import { generateUserDocument } from '../../config/firebase'
 
 const SignUp = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [displayName, setDisplayName] = useState("");
     const [error, setError] = useState<string>('');
-    const createUserWithEmailAndPasswordHandler = async (event: React.MouseEvent<HTMLButtonElement>, email: string, password: string) => {
-        event.preventDefault();
-        try {
-            const { user } = await auth.createUserWithEmailAndPassword(email, password);
-            generateUserDocument(user, {});
-        }
-        catch (error) {
-            setError('Error Signing up with email and password');
-        }
+    // const createUserWithEmailAndPasswordHandler = async (event: React.MouseEvent<HTMLButtonElement>, email: string, password: string) => {
+    //     event.preventDefault();
+    //     try {
+    //         const { user } = await auth.createUserWithEmailAndPassword(email, password);
+    //         generateUserDocument(user, {});
+    //     }
+    //     catch (error) {
+    //         setError('Error Signing up with email and password');
+    //     }
 
-        setEmail("");
-        setPassword("");
-        setDisplayName("");
-    };
+    //     setEmail("");
+    //     setPassword("");
+    //     setDisplayName("");
+    // };
     const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.currentTarget;
         if (name === "userEmail") {
@@ -77,14 +77,14 @@ const SignUp = () => {
                         id="userPassword"
                         onChange={event => onChangeHandler(event)}
                     />
-                    <button
+                    {/* <button
                         className="bg-green-400 hover:bg-green-500 w-full py-2 text-white"
                         onClick={event => {
                             createUserWithEmailAndPasswordHandler(event, email, password);
                         }}
                     >
                         Sign up
-                </button>
+                </button> */}
                 </form>
                 <p className="text-center my-3">or</p>
                 <button

@@ -1,19 +1,22 @@
 import React, { useState, ChangeEvent } from "react";
 import Link from 'next/link'
-import { signInWithGoogle, auth } from "../../config/firebase";
+import { RootState } from '../../reducers/index'
+
+
+
 
 const SignIn = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string>('');
-    const signInWithEmailAndPasswordHandler =
-        (event: React.MouseEvent<HTMLButtonElement>, email: string, password: string) => {
-            event.preventDefault();
-            auth.signInWithEmailAndPassword(email, password).catch(error => {
-                setError("Error signing in with password and email!");
-                console.error("Error signing in with password and email", error);
-            });
-        };
+    // const signInWithEmailAndPasswordHandler =
+    //     (event: React.MouseEvent<HTMLButtonElement>, email: string, password: string) => {
+    //         event.preventDefault();
+    //         auth.signInWithEmailAndPassword(email, password).catch(error => {
+    //             setError("Error signing in with password and email!");
+    //             console.error("Error signing in with password and email", error);
+    //         });
+    //     };
 
     const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.currentTarget;
@@ -26,12 +29,16 @@ const SignIn = () => {
         }
     };
 
+    const loginWithGoogle = () => {
+        firebase.login({ provider: 'google', type: 'popup' })
+    }
+
     return (
         <div className="mt-8">
             <h1 className="text-3xl mb-2 text-center font-bold">Sign In</h1>
             <div className="border border-blue-400 mx-auto w-11/12 md:w-2/4 rounded py-8 px-4 md:px-8">
                 {error !== null && <div className="py-4 bg-red-600 w-full text-white text-center mb-3">{error}</div>}
-                <form className="">
+                {/* <form className="">
                     <label htmlFor="userEmail" className="block">
                         Email:
                     </label>
@@ -59,13 +66,17 @@ const SignIn = () => {
                     <button className="bg-green-400 hover:bg-green-500 w-full py-2 text-white" onClick={(event) => { signInWithEmailAndPasswordHandler(event, email, password) }}>
                         Sign in
                     </button>
-                </form>
+                </form> */}
                 <p className="text-center my-3">or</p>
-                <button
-                    onClick={signInWithGoogle}
-                    className="bg-red-500 hover:bg-red-600 w-full py-2 text-white">
-                    Sign in with Google
-                </button>
+                {
+                    !isLoaded(auth)
+                        ? <span>Loading...</span>
+                        : isEmpty(auth)
+                            // <GoogleButton/> button can be used instead
+                            ? <button onClick={loginWithGoogle}>Login With Google</button>
+                            : <pre>{JSON.stringify(auth, null, 2)}</pre>
+                }
+                <button onClick={loginWithGoogle}>Login With Google</button>
                 <p className="text-center my-3">
                     Don't have an account?{" "}
                     <Link href="/signup" >
