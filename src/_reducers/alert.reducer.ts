@@ -8,7 +8,7 @@ export interface IAlertBaseAction {
 }
 
 export interface IAlertState {
-    type: string;
+    type: 'alert-success' | 'alert-danger' | '';
     message: string;
 
 }

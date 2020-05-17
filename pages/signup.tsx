@@ -1,5 +1,6 @@
 import React from 'react'
 import SignUp from '../src/components/SignUp/SignUp'
+import Layout from '../src/components/Layout'
 
 interface Props {
 
@@ -8,7 +9,9 @@ interface Props {
 const signup = (props: Props) => {
     return (
         <div>
-            <SignUp />
+            <Layout>
+                <SignUp />
+            </Layout>
         </div>
     )
 }

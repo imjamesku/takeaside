@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import {useSelector, useDispatch} from 'react-redux'
 import Link from 'next/link'
 import {RootState} from '../../_reducers'
+import {useRouter} from 'next/router'
 
 import {userActions} from '../../_actions/user.actions'
 
@@ -13,22 +14,27 @@ const SignIn = () => {
         username: '',
         password: ''
     });
+    const router = useRouter()
     const [submitted, setSubmitted] = useState(false);
     const { username, password } = inputs;
     const loggingIn = useSelector((state: RootState) => state.authentication.loggingIn);
+    const loggedIn = useSelector((state: RootState) => state.authentication.loggedIn)
     const dispatch = useDispatch();
 
     // reset login status
-    useEffect(() => { 
-        dispatch(userActions.logout()); 
-    }, []);
+    useEffect(() => {
+        if (loggedIn) {
+            router.push('/')
+        }
+        // dispatch(userActions.logout()); 
+    }, [loggedIn]);
 
     function handleChange(e) {
         const { name, value } = e.target;
         setInputs(inputs => ({ ...inputs, [name]: value }));
     }
 
-    function handleSubmit(e) {
+    function handleSubmit(e: React.FormEvent<EventTarget>) {
         e.preventDefault();
 
         setSubmitted(true);
@@ -60,7 +66,7 @@ const SignIn = () => {
                         {loggingIn && <span className="spinner-border spinner-border-sm mr-1"></span>}
                         Login
                     </button>
-                    <Link href="/register"><a>Register</a></Link>
+                    <Link href="/signup"><a>Register</a></Link>
                 </div>
             </form>
         </div>

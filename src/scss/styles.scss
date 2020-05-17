@@ -8,3 +8,19 @@
 body {
     background-color: $background-color;
 }
+
+.alert {
+    padding: 0.6rem;
+    margin: 1rem 0;
+    display: inline-block;
+}
+.alert-danger {
+    background-color: $alert-danger-color;
+    color: darken($color: $alert-danger-color, $amount: 60%)
+
+}
+
+.alert-success {
+    background-color: $alert-success-color;
+    color: darken($color:$alert-success-color, $amount: 60%)
+}

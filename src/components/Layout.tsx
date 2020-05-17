@@ -2,6 +2,11 @@ import * as React from 'react'
 import Link from 'next/link'
 import Head from 'next/head'
 import styles from './layout.module.scss'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '../_reducers'
+import { userActions } from '../_actions/user.actions'
+import Router, {useRouter} from 'next/router'
+import { alertActions } from '../_actions/alert.actions'
 
 type Props = {
   title?: string
@@ -10,7 +15,18 @@ type Props = {
 const Layout: React.FunctionComponent<Props> = ({
   children,
   title = 'This is the default title',
-}) => (
+}) => {
+  const loggedIn = useSelector((state: RootState) => state.authentication.loggedIn)
+  const dispatch = useDispatch()
+  const alert = useSelector((state: RootState) => state.alert)
+  // const router = useRouter()
+
+  // React.useEffect(() => {
+  //   dispatch(alertActions.clear())
+  // }, [router.pathname])
+  Router.events.on('routeChangeStart', () => dispatch(alertActions.clear()))
+
+  return (
     <div>
       <Head>
         <title>{title}</title>
@@ -35,9 +51,11 @@ const Layout: React.FunctionComponent<Props> = ({
             <a className={styles.navLink}>Profile</a>
           </Link>
           <a href="/api/users">Users API</a>
+          {loggedIn && <button onClick={() => dispatch(userActions.logout())}>Logout</button>}
         </nav>
       </header>
       <div className={styles.container}>
+        {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
         {children}
       </div>
       <footer>
@@ -46,5 +64,6 @@ const Layout: React.FunctionComponent<Props> = ({
       </footer>
     </div>
   )
+}
 
 export default Layout
