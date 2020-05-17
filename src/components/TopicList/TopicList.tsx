@@ -90,7 +90,7 @@ const TopicList = (props: Props) => {
             ariaHideApp={false}>
                 <button className={styles.closeButton} onClick={closeComments}>x</button>
                 <div className={styles.commentsContainer}>
-                    <h1>Modal</h1>
+                    <h1>Comments</h1>
                     <Comments />
                 </div>
             </ReactModal>

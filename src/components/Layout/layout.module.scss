@@ -1,4 +1,4 @@
-@import '../scss/config';
+@import '../../scss/config';
 .navBar {
     background-color: $primary-color;
     padding: 1rem;
@@ -16,6 +16,13 @@
     .navLink {
         text-decoration: none;
         color: black;
+    }
+    button {
+        border-width: 0;
+        padding: 0.3rem;
+        background-color: white;
+        font-weight: bold;
+        cursor: pointer;
     }
 }
 .container {

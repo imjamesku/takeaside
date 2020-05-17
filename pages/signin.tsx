@@ -1,6 +1,6 @@
 import React from 'react'
 import SignIn from '../src/components/SignIn/SignIn'
-import Layout from '../src/components/Layout'
+import Layout from '../src/components/Layout/Layout'
 
 interface Props {
 

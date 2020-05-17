@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import Router from 'next/router'
-import Layout from "../src/components/Layout";
+import Layout from "../src/components/Layout/Layout";
+import HOC from '../src/components/HOCs/withAuth'
 
 const ProfilePage = () => {
 
@@ -27,4 +28,4 @@ const ProfilePage = () => {
         </Layout>
     )
 };
-export default ProfilePage;
+export default HOC(ProfilePage);

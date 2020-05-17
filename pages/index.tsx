@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Layout from '../src/components/Layout'
+import Layout from '../src/components/Layout/Layout'
 import styles from './index.module.scss'
 import TopicList from '../src/components/TopicList/TopicList'
 

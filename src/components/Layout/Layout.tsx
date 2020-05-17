@@ -3,10 +3,10 @@ import Link from 'next/link'
 import Head from 'next/head'
 import styles from './layout.module.scss'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../_reducers'
-import { userActions } from '../_actions/user.actions'
-import Router, {useRouter} from 'next/router'
-import { alertActions } from '../_actions/alert.actions'
+import { RootState } from '../../_reducers'
+import { userActions } from '../../_actions/user.actions'
+import Router, { useRouter } from 'next/router'
+import { alertActions } from '../../_actions/alert.actions'
 
 type Props = {
   title?: string
@@ -27,8 +27,23 @@ const Layout: React.FunctionComponent<Props> = ({
   React.useEffect(() => {
     dispatch(userActions.loadUser())
 
-}, [])
+  }, [])
   Router.events.on('routeChangeStart', () => dispatch(alertActions.clear()))
+
+  const publicLinks = [
+    { href: "/", text: "Home" },
+    { href: "/about", text: "About" },
+    {href: "/signin", text: "Log in"}
+  ]
+
+  const privateLinks = [
+    { href: "/", text: "Home" },
+    { href: "/about", text: "About" },
+    { href: "/users", text: "Users List" },
+    { href: "/profile", text: "Profile" },
+  ]
+
+  const navLinks = loggedIn ? privateLinks : publicLinks
 
   return (
     <div>
@@ -42,7 +57,8 @@ const Layout: React.FunctionComponent<Props> = ({
           <Link href="/">
             <a className={styles.brand}>pickaside.com</a>
           </Link>
-          <Link href="/">
+          {navLinks.map(link => <Link href={link.href}><a className={styles.navLink}>{link.text}</a></Link>)}
+          {/* <Link href="/">
             <a className={styles.navLink}>Home</a>
           </Link>
           <Link href="/about">
@@ -53,8 +69,8 @@ const Layout: React.FunctionComponent<Props> = ({
           </Link>
           <Link href="/profile">
             <a className={styles.navLink}>Profile</a>
-          </Link>
-          <a href="/api/users">Users API</a>
+          </Link> */}
+          {/* <a href="/api/users">Users API</a> */}
           {loggedIn && <button onClick={() => dispatch(userActions.logout())}>Logout</button>}
         </nav>
       </header>
