@@ -1,0 +1,21 @@
+.topicList {
+    margin-top: 1rem;
+    display: grid;
+    gap: 1rem;
+}
+
+.commentsContainer {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.closeButton {
+    color: red;
+    position: absolute;
+    right: 30px;
+    top: 10px;
+    border-width: 0;
+    font-size: 2rem;
+    background-color: transparent;
+    cursor: pointer;
+}
