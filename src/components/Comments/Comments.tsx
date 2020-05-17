@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Comment from './Comment/Comment'
 import styles from './Comments.module.scss'
 
@@ -13,9 +13,12 @@ const Comments = (props: Props) => {
         "Boring",
         "whatever"
     ]
+    useEffect(() => {
+        console.log("comments opned")
+    }, [])
     return (
         <div className={styles.commentList}>
-            {comments.map(comment => <Comment content={comment}/>)}
+            {comments.map((comment, idx) => <Comment key={idx} content={comment}/>)}
         </div>
     )
 }

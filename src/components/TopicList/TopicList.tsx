@@ -1,9 +1,10 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import styles from './TopicList.module.scss'
 import TopicBox from '../TopicBox/TopicBox'
 import { Topic } from '../../types/Topics'
 import ReactModal from 'react-modal'
 import Comments from '../Comments/Comments'
+import MyApp from '../../../pages/_app'
 
 interface Props {
 
@@ -77,13 +78,16 @@ const TopicList = (props: Props) => {
             }
         }
     ]
+    
 
     return (
         <>
             <div className={styles.topicList}>
                 {dummyData.map((topicData, index) => <TopicBox key={index} topic={topicData} openComments={openComments} />)}
             </div>
-            <ReactModal isOpen={commentsSectionIsOpen}>
+            <ReactModal
+            isOpen={commentsSectionIsOpen}
+            ariaHideApp={false}>
                 <button className={styles.closeButton} onClick={closeComments}>x</button>
                 <div className={styles.commentsContainer}>
                     <h1>Modal</h1>

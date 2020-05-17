@@ -5,12 +5,37 @@ import { alertActions } from './alert.actions';
 import User from '../_types/User';
 
 export const userActions = {
+    loadUser,
     login,
     logout,
 };
 
+function loadUser() {
+    // console.log(123)
+    const success = (user: User) => {
+        return {
+            type: EUserActionTypes.LOGIN_SUCCESS,
+            user: user
+        }
+    }
+    return (dispatch: any) => {
+        const storedData = localStorage.getItem('user')
+        if (storedData){
+            const user = JSON.parse(storedData)
+            if (user) {
+                console.log(success(user))
+                // console.log(user)
+                dispatch(success(user))
+            }
+        }
+       
+    }
+    
+}
+
 function login(username: string, password: string) {
     return (dispatch: any) => {
+        // console.log("login")
         dispatch(request());
 
         userService.login(username, password)

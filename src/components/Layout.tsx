@@ -24,6 +24,10 @@ const Layout: React.FunctionComponent<Props> = ({
   // React.useEffect(() => {
   //   dispatch(alertActions.clear())
   // }, [router.pathname])
+  React.useEffect(() => {
+    dispatch(userActions.loadUser())
+
+}, [])
   Router.events.on('routeChangeStart', () => dispatch(alertActions.clear()))
 
   return (
