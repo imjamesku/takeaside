@@ -4,6 +4,7 @@ import styles from './SignUp.module.scss'
 import { useSelector, useDispatch } from "react-redux";
 import { userActions } from "../../_actions/user.actions";
 import { useRouter } from "next/router";
+import { RootState } from "../../_reducers";
 
 const SignUp = () => {
     const [user, setUser] = useState({
@@ -14,7 +15,7 @@ const SignUp = () => {
     });
 
     const [submitted, setSubmitted] = useState(false);
-    const registering = useSelector(state => state.registration.registering);
+    const registering = useSelector((state: RootState) => state.registration.registering);
     const dispatch = useDispatch();
     const loggedIn = useSelector((state: RootState) => state.authentication.loggedIn)
     const router = useRouter()
@@ -40,13 +41,14 @@ const SignUp = () => {
 
         setSubmitted(true);
         if (user.firstName && user.lastName && user.username && user.password) {
-            dispatch(userActions.register(user));
+            dispatch(userActions.register(user, setSubmitted));
             setUser({
                 firstName: '',
                 lastName: '',
                 username: '',
                 password: ''
             })
+            
         }
     }
 

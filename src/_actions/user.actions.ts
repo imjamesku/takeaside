@@ -63,27 +63,22 @@ function logout() {
     return { type: EUserActionTypes.LOGOUT };
 }
 
-function register(user: UserRegisterFormData) {
-    return (dispatch:any) => {
+function register(user: UserRegisterFormData, setSubmitted: React.Dispatch<React.SetStateAction<boolean>>) {
+    return async (dispatch:any) => {
         dispatch(request());
 
-        userService.register(user)
-            .then(
-                (user: User) => { 
-                    dispatch(success());
-                    dispatch(alertActions.success('Registration successful'));
-                },
-                (error: any) => {
-                    dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
-                }
-            );
+        try {
+            await userService.register(user)
+            dispatch(success());
+            dispatch(alertActions.success('Registration successful. Please Log in'));
+            setSubmitted(false)
+        } catch (error) {
+            dispatch(failure(error.toString()));
+            dispatch(alertActions.error(error.toString()));
+        }
     };
 
     function request() { return { type: EUserActionTypes.REGISTER_REQUEST } }
     function success() { return { type: EUserActionTypes.REGISTER_SUCCESS } }
-    function login(user: User) {
-        return {type: EUserActionTypes.LOGIN_SUCCESS, user: user}
-    }
     function failure(error: string) { return { type: EUserActionTypes.REGISTER_FAILURE, error } }
 }
