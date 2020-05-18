@@ -57,7 +57,7 @@ const Layout: React.FunctionComponent<Props> = ({
           <Link href="/">
             <a className={styles.brand}>pickaside.com</a>
           </Link>
-          {navLinks.map(link => <Link href={link.href}><a className={styles.navLink}>{link.text}</a></Link>)}
+          {navLinks.map((link, index) => <Link key={index} href={link.href}><a className={styles.navLink}>{link.text}</a></Link>)}
           {/* <Link href="/">
             <a className={styles.navLink}>Home</a>
           </Link>
@@ -78,7 +78,7 @@ const Layout: React.FunctionComponent<Props> = ({
         {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
         {children}
       </div>
-      <footer>
+      <footer className={styles.footer}>
         <hr />
         <span>I'm here to stay (Footer)</span>
       </footer>

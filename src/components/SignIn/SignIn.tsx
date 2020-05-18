@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import Link from 'next/link'
 import {RootState} from '../../_reducers'
 import {useRouter} from 'next/router'
-
+import styles from './SignIn.module.scss'
 import {userActions} from '../../_actions/user.actions'
 
 
@@ -17,17 +17,16 @@ const SignIn = () => {
     const router = useRouter()
     const [submitted, setSubmitted] = useState(false);
     const { username, password } = inputs;
-    const loggingIn = useSelector((state: RootState) => state.authentication.loggingIn);
-    const loggedIn = useSelector((state: RootState) => state.authentication.loggedIn)
+    const authentication = useSelector((state: RootState) => state.authentication)
     const dispatch = useDispatch();
 
     // reset login status
     useEffect(() => {
-        if (loggedIn) {
+        if (authentication.loggedIn && authentication.user) {
             router.push('/')
         }
         // dispatch(userActions.logout()); 
-    }, [loggedIn]);
+    }, [authentication]);
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -44,29 +43,27 @@ const SignIn = () => {
     }
 
     return (
-        <div className="col-lg-8 offset-lg-2">
+        <div>
             <h2>Login</h2>
-            <form name="form" onSubmit={handleSubmit}>
+            <form className={styles.form} name="form" onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label>Username</label>
-                    <input type="text" name="username" value={username} onChange={handleChange} className={'form-control' + (submitted && !username ? ' is-invalid' : '')} />
+                    <input placeholder="Username" type="text" name="username" value={username} onChange={handleChange} className={'form-control' + (submitted && !username ? ' is-invalid' : '')} />
                     {submitted && !username &&
-                        <div className="invalid-feedback">Username is required</div>
+                        <div className={styles.invalidFeedback}>Username is required</div>
                     }
                 </div>
                 <div className="form-group">
-                    <label>Password</label>
-                    <input type="password" name="password" value={password} onChange={handleChange} className={'form-control' + (submitted && !password ? ' is-invalid' : '')} />
+                    <input placeholder="Password" type="password" name="password" value={password} onChange={handleChange} className={'form-control' + (submitted && !password ? ' is-invalid' : '')} />
                     {submitted && !password &&
-                        <div className="invalid-feedback">Password is required</div>
+                        <div className={styles.invalidFeedback}>Password is required</div>
                     }
                 </div>
                 <div className="form-group">
-                    <button className="btn btn-primary">
-                        {loggingIn && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                    <button>
                         Login
                     </button>
-                    <Link href="/signup"><a>Register</a></Link>
+                    <p>Don't have an account?</p>
+                    <Link href="/signup" passHref><a>Register</a></Link>
                 </div>
             </form>
         </div>

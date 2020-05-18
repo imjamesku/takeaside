@@ -3,11 +3,13 @@ import { userService } from '../_services/user.service';
 import { alertActions } from './alert.actions';
 // import { history } from '../_helpers/history';
 import User from '../_types/User';
+import UserRegisterFormData from '../_types/UserRegisterFormData';
 
 export const userActions = {
     loadUser,
     login,
     logout,
+    register
 };
 
 function loadUser() {
@@ -59,4 +61,29 @@ function login(username: string, password: string) {
 function logout() {
     userService.logout();
     return { type: EUserActionTypes.LOGOUT };
+}
+
+function register(user: UserRegisterFormData) {
+    return (dispatch:any) => {
+        dispatch(request());
+
+        userService.register(user)
+            .then(
+                (user: User) => { 
+                    dispatch(success());
+                    dispatch(alertActions.success('Registration successful'));
+                },
+                (error: any) => {
+                    dispatch(failure(error.toString()));
+                    dispatch(alertActions.error(error.toString()));
+                }
+            );
+    };
+
+    function request() { return { type: EUserActionTypes.REGISTER_REQUEST } }
+    function success() { return { type: EUserActionTypes.REGISTER_SUCCESS } }
+    function login(user: User) {
+        return {type: EUserActionTypes.LOGIN_SUCCESS, user: user}
+    }
+    function failure(error: string) { return { type: EUserActionTypes.REGISTER_FAILURE, error } }
 }

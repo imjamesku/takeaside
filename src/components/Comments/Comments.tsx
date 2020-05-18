@@ -11,7 +11,23 @@ const Comments = (props: Props) => {
         "Cats all the way",
         "Dogs for life",
         "Boring",
-        "whatever"
+        "whatever",
+        "Cats all the way",
+        "Dogs for life",
+        "Boring",
+        "whatever",
+        "Cats all the way",
+        "Dogs for life",
+        "Boring",
+        "whatever",
+        "Cats all the way",
+        "Dogs for life",
+        "Boring",
+        "whatever",
+        "Cats all the way",
+        "Dogs for life",
+        "Boring",
+        "whatever",
     ]
     useEffect(() => {
         console.log("comments opned")
