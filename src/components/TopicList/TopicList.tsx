@@ -4,13 +4,17 @@ import TopicBox from '../TopicBox/TopicBox'
 import { Topic } from '../../types/Topics'
 import ReactModal from 'react-modal'
 import Comments from '../Comments/Comments'
-import MyApp from '../../../pages/_app'
+import { topicService } from '../../_services/topic_service'
+import { topicActions } from '../../_actions/topic.actions'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../_reducers'
 
 interface Props {
 
 }
 
 const TopicList = (props: Props) => {
+    const dispatch = useDispatch()
 
     function openComments() {
         setCommentsSectionIsOpen(true)
@@ -21,69 +25,16 @@ const TopicList = (props: Props) => {
     }
     const [commentsSectionIsOpen, setCommentsSectionIsOpen] = useState(false)
 
-    const dummyData: Topic[] = [
-        {
-            question: "Cat or dog?",
-            firstOption: {
-                name: "Dogs are the best!",
-                users: ["kevin"]
-            },
-            secondOption: {
-                name: "Cats are cool",
-                users: ["james", "tide"]
-            }
-        },
-        {
-            question: "Cat or dog?",
-            firstOption: {
-                name: "dog",
-                users: ["james", "tide", "kevin"]
-            },
-            secondOption: {
-                name: "cat",
-                users: []
-            }
-        },
-        {
-            question: "Cat or dog?",
-            firstOption: {
-                name: "dog",
-                users: []
-            },
-            secondOption: {
-                name: "cat",
-                users: ["james", "tide", "kevin"]
-            }
-        },
-        {
-            question: "Cat or dog?",
-            firstOption: {
-                name: "dog",
-                users: ["kevin"]
-            },
-            secondOption: {
-                name: "cat",
-                users: ["james", "tide"]
-            }
-        },
-        {
-            question: "Cat or dog?",
-            firstOption: {
-                name: "dog",
-                users: []
-            },
-            secondOption: {
-                name: "cat",
-                users: []
-            }
-        }
-    ]
-    
+    useEffect(() => {
+        dispatch(topicActions.getAll())
+    }, [])
 
+    const topics = useSelector((state: RootState) => state.topics)
+    
     return (
         <>
             <div className={styles.topicList}>
-                {dummyData.map((topicData, index) => <TopicBox key={index} topic={topicData} openComments={openComments} />)}
+                {topics.loading ? <h2>Loading</h2> : topics.topics.map((topicData, index) => <TopicBox key={index} topic={topicData} openComments={openComments} />)}
             </div>
             <ReactModal
             isOpen={commentsSectionIsOpen}

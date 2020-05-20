@@ -43,7 +43,7 @@ function register(user: UserRegisterFormData) {
 
 
 function handleResponse(response: any) {
-    return response.text().then(text => {
+    return response.text().then((text: string) => {
         const data = text && JSON.parse(text);
         if (!response.ok) {
             if (response.status === 401) {

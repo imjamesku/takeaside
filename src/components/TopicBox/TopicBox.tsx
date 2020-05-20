@@ -1,7 +1,7 @@
 import React from 'react'
-import { Topic } from '../../types/Topics'
+// import { Topic } from '../../types/Topics'
+import Topic from '../../_types/Topic'
 import styles from './TopicBox.module.scss'
-import router from 'next/router'
 
 interface Props {
     topic: Topic;
@@ -9,8 +9,8 @@ interface Props {
 }
 
 const TopicBox = ({topic, openComments}: Props) => {
-    const leftLength = topic.firstOption.users.length
-    const rightLength = topic.secondOption.users.length
+    const leftLength = topic.left.count
+    const rightLength = topic.right.count
     const leftPercentTage = leftLength / (leftLength + rightLength) * 100
     const rightPercentTage = rightLength / (leftLength + rightLength) * 100
     // const auth = useSelector((state: RootState) => state.firebase.auth)
@@ -29,10 +29,10 @@ const TopicBox = ({topic, openComments}: Props) => {
                 <div className={styles.contentTextAndButtons}>
                     <div className={styles.left}>
                         <button className={styles.vote} onClick={voteLeft}>VOTE</button>
-                        <p>{topic.firstOption.name}</p>
+                        <p>{topic.left.name}</p>
                     </div>
                     <div className={styles.right}>
-                        <p>{topic.secondOption.name}</p>
+                        <p>{topic.right.name}</p>
                         <button className={styles.vote}>VOTE</button>
                     </div>
                 </div>
@@ -52,7 +52,7 @@ const TopicBox = ({topic, openComments}: Props) => {
             </div>
             <div className={styles.bottom}>
                 <span onClick={openComments} style={{cursor: 'pointer'}}>0 comments</span>
-                <span>{topic.firstOption.users.length + topic.secondOption.users.length} votes</span>
+                <span>{topic.left.count + topic.right.count} votes</span>
             </div>
         </div>
     )
