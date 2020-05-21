@@ -1,13 +1,24 @@
 import Axios from "axios";
 import axios from "../components/helpers/axios";
+import CreateTopicFrom from "../_types/CreateTopicForm";
 
 export const topicService = {
     getTopics,
-    handleError
+    handleError,
+    vote,
+    createTopic
+}
+
+function createTopic(formData: CreateTopicFrom){
+    return axios.post('/topics', formData).then(response => response.data)
 }
 
 function getTopics() {
     return axios.get('/topics').then(response => response.data)
+}
+
+function vote(optionId: number) {
+    return axios.post('/vote', {optionId}).then(response => response.data)
 }
 
 function handleError(error: any) {

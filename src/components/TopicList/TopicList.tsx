@@ -8,7 +8,7 @@ import { topicService } from '../../_services/topic_service'
 import { topicActions } from '../../_actions/topic.actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../_reducers'
-
+import CreateTopicForm from '../CreateTopicForm/CreateTopicForm'
 interface Props {
 
 }
@@ -23,19 +23,44 @@ const TopicList = (props: Props) => {
     function closeComments() {
         setCommentsSectionIsOpen(false)
     }
+
+    function openCreateTopic() {
+        setCreateTopicIsOpen(true)
+    }
+
+    function closeCreateTopic() {
+        setCreateTopicIsOpen(false)
+    }
     const [commentsSectionIsOpen, setCommentsSectionIsOpen] = useState(false)
+    const [createTopicIsOpen, setCreateTopicIsOpen] = useState(false)
 
     useEffect(() => {
-        dispatch(topicActions.getAll())
+        if (topics.topics.length === 0){
+            dispatch(topicActions.getAll())
+        }
     }, [])
 
     const topics = useSelector((state: RootState) => state.topics)
     
     return (
         <>
+            <button
+                className={styles.createButton}
+                onClick={openCreateTopic}>Create Topic</button>
             <div className={styles.topicList}>
                 {topics.loading ? <h2>Loading</h2> : topics.topics.map((topicData, index) => <TopicBox key={index} topic={topicData} openComments={openComments} />)}
             </div>
+            <ReactModal
+                ariaHideApp={false}
+                style={{content: {
+                    backgroundColor: "#ecf0f3",
+                    margin: "0 auto",
+                    display: "inline"
+                }}}
+                isOpen={createTopicIsOpen}>
+                <button className={styles.closeButton} onClick={closeCreateTopic}>x</button>
+                <CreateTopicForm/>
+            </ReactModal>
             <ReactModal
             isOpen={commentsSectionIsOpen}
             ariaHideApp={false}>

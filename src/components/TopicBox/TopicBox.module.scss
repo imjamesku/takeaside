@@ -59,6 +59,7 @@ $right-color: $primary-color;
             height: 100%;
             position: relative;
             float: left;
+            transition: all 0.3s;
             background-color: $left-color;
             .percentage {
                 position: absolute;
@@ -86,6 +87,7 @@ $right-color: $primary-color;
             float: left;
             position: relative;
             background-color: $right-color;
+            transition: all 0.3s;
             .percentage {
                 position: absolute;
                 // width: 1rem;
