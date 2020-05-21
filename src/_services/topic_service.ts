@@ -1,5 +1,5 @@
 import Axios from "axios";
-import axios from "../components/helpers/axios";
+import axios from "../_helpers/axios";
 import CreateTopicFrom from "../_types/CreateTopicForm";
 
 export const topicService = {

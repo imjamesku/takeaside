@@ -1,6 +1,7 @@
 import { ETopicActionTypes } from "../_actionTypes/topics"
 import Topic from "../_types/Topic"
 import update from 'immutability-helper'
+import Comment from "../_types/Comment"
 
 
 const initialState: ITopicState = { loading: false, error: '', topics: [] }
@@ -39,7 +40,13 @@ export type IVoteSuccessAction = {
     optionId: number;
 }
 
-export type ITopicAction = ITopicRequestAction | IGetTopicsSuccessAction | IGetTopicsFailureAction | ICreateTopicRequestAction | ICreateTopicSuccessAction | ICreateTopicFailureAction | IVoteSuccessAction
+export type ILoadCommentsSuccessAction = {
+    type: ETopicActionTypes.LOAD_COMMENTS_SUCCESS;
+    topicIdx: number;
+    comments: Array<Comment>;
+}
+
+export type ITopicAction = ITopicRequestAction | IGetTopicsSuccessAction | IGetTopicsFailureAction | ICreateTopicRequestAction | ICreateTopicSuccessAction | ICreateTopicFailureAction | IVoteSuccessAction | ILoadCommentsSuccessAction
 
 export type ITopicState = {
     loading: boolean;
@@ -96,6 +103,13 @@ export function topics(state: ITopicState = initialState, action: ITopicAction):
                         [idx]: {right: {count: {$set: count+1}}}
                     })
                 }
+            }
+        case ETopicActionTypes.LOAD_COMMENTS_SUCCESS:
+            return {
+                ...state,
+                topics: update(state.topics, {
+                    [action.topicIdx]: {comments: {$set: state.topics[action.topicIdx].comments.concat(action.comments)}}
+                })
             }
         default:
             return state

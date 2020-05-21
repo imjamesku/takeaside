@@ -48,7 +48,7 @@ const TopicList = (props: Props) => {
                 className={styles.createButton}
                 onClick={openCreateTopic}>Create Topic</button>
             <div className={styles.topicList}>
-                {topics.loading ? <h2>Loading</h2> : topics.topics.map((topicData, index) => <TopicBox key={index} topic={topicData} openComments={openComments} />)}
+                {topics.loading ? <h2>Loading</h2> : topics.topics.map((topicData, index) => <TopicBox key={index} topic={topicData} topicIdx={index} />)}
             </div>
             <ReactModal
                 ariaHideApp={false}
@@ -61,7 +61,7 @@ const TopicList = (props: Props) => {
                 <button className={styles.closeButton} onClick={closeCreateTopic}>x</button>
                 <CreateTopicForm/>
             </ReactModal>
-            <ReactModal
+            {/* <ReactModal
             isOpen={commentsSectionIsOpen}
             ariaHideApp={false}>
                 <button className={styles.closeButton} onClick={closeComments}>x</button>
@@ -69,7 +69,7 @@ const TopicList = (props: Props) => {
                     <h1>Comments</h1>
                     <Comments />
                 </div>
-            </ReactModal>
+            </ReactModal> */}
         </>
     )
 }

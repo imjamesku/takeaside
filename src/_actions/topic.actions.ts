@@ -1,15 +1,18 @@
 import { ETopicActionTypes } from "../_actionTypes/topics"
-import { IGetTopicsSuccessAction, ITopicRequestAction, IGetTopicsFailureAction } from "../_reducers/topic.reducer"
+import { IGetTopicsSuccessAction, ITopicRequestAction, IGetTopicsFailureAction, topics } from "../_reducers/topic.reducer"
 import Topic from "../_types/Topic"
 import { topicService } from "../_services/topic_service"
 import { alertActions } from "./alert.actions"
 import CreateTopicFrom from "../_types/CreateTopicForm"
 import update from 'immutability-helper'
+import { commentService } from "../_services/comment._service"
+import Comment from '../_types/Comment'
 
 export const topicActions = {
     getAll,
     createTopic,
-    vote
+    vote,
+    loadComments
 }
 
 function vote(optionId: number) {
@@ -58,7 +61,8 @@ function getAll() {
         dispatch(request())
         topicService.getTopics()
             .then(data => {
-                dispatch(success(data))
+                const topics: Array<Topic> = data.map((item: any) => ({...item, comments: []}))
+                dispatch(success(topics))
             })
             .catch(error => {
                 dispatch(failure(error.toString()))
@@ -80,5 +84,23 @@ function getAll() {
 
     function failure(error: string): IGetTopicsFailureAction {
         return { type: ETopicActionTypes.TOPICS_REQUEST_FAILURE, error: error }
+    }
+}
+
+function loadComments(topicId: number, topicIdx: number) {
+    return (dispatch: any) => {
+        commentService.getCommentsByTopicId(topicId)
+            .then(data => {
+                dispatch(success(data))
+            })
+            .catch(error => {
+                console.log(error.toString())
+            })
+    }
+    function success(comments: Array<Comment>) {
+        return {
+            type: ETopicActionTypes.LOAD_COMMENTS_SUCCESS,
+            topicIdx,
+            comments}
     }
 }

@@ -1,9 +1,10 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import Comment from './Comment/Comment'
 import styles from './Comments.module.scss'
+import CommentType from '../../_types/Comment'
 
 interface Props {
-    
+    comments: Array<CommentType>
 }
 
 const Comments = (props: Props) => {
@@ -29,12 +30,9 @@ const Comments = (props: Props) => {
         "Boring",
         "whatever",
     ]
-    useEffect(() => {
-        console.log("comments opned")
-    }, [])
     return (
         <div className={styles.commentList}>
-            {comments.map((comment, idx) => <Comment key={idx} content={comment}/>)}
+            {props.comments.map((comment, idx) => <Comment key={idx} content={comment.content}/>)}
         </div>
     )
 }

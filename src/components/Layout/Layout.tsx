@@ -58,19 +58,6 @@ const Layout: React.FunctionComponent<Props> = ({
             <a className={styles.brand}>pickaside.com</a>
           </Link>
           {navLinks.map((link, index) => <Link key={index} href={link.href}><a className={styles.navLink}>{link.text}</a></Link>)}
-          {/* <Link href="/">
-            <a className={styles.navLink}>Home</a>
-          </Link>
-          <Link href="/about">
-            <a className={styles.navLink}>About</a>
-          </Link>
-          <Link href="/users">
-            <a className={styles.navLink}>Users List</a>
-          </Link>
-          <Link href="/profile">
-            <a className={styles.navLink}>Profile</a>
-          </Link> */}
-          {/* <a href="/api/users">Users API</a> */}
           {loggedIn && <button onClick={() => dispatch(userActions.logout())}>Logout</button>}
         </nav>
       </header>
