@@ -18,11 +18,16 @@ function vote(optionId: number) {
         // dispatch({type: ETopicActionTypes.VOTE_SUCCESS, optionId})
         topicService.vote(optionId)
             .then(data => {
-                console.log('voted')
                 dispatch({type: ETopicActionTypes.VOTE_SUCCESS, optionId})
             })
             .catch(error => {
-                console.log('error', error.response)
+                // Todo: display error message
+                if (error.response) {
+                    alert(error.response.data.message)
+                } else {
+                    alert("Something went wrong")
+                }
+                // console.log('error', error.response)
             })
     }
 }
