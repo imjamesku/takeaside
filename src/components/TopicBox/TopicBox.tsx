@@ -32,7 +32,7 @@ const TopicBox = ({ topic, topicIdx }: Props) => {
     }
     const [commentsSectionIsOpen, setCommentsSectionIsOpen] = useState(false)
     function openComments() {
-        if (topic.commentCount != topic.comments.length) {
+        if (topic.comments.length == 0) {
             dispatch(topicActions.loadComments(topic.id, topicIdx))
         }
         setCommentsSectionIsOpen(true)
@@ -79,7 +79,7 @@ const TopicBox = ({ topic, topicIdx }: Props) => {
                 <button className={styles.closeButton} onClick={() => setCommentsSectionIsOpen(false)}>x</button>
                 <div className={styles.commentsContainer}>
                     <h1>Comments</h1>
-                    <Comments comments={topic.comments} />
+                    <Comments comments={topic.comments} topicId={topic.id} topicIdx={topicIdx} />
                 </div>
             </ReactModal>
         </>

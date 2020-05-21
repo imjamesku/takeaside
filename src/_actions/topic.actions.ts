@@ -12,7 +12,8 @@ export const topicActions = {
     getAll,
     createTopic,
     vote,
-    loadComments
+    loadComments,
+    createComment,
 }
 
 function vote(optionId: number) {
@@ -102,5 +103,24 @@ function loadComments(topicId: number, topicIdx: number) {
             type: ETopicActionTypes.LOAD_COMMENTS_SUCCESS,
             topicIdx,
             comments}
+    }
+}
+
+function createComment(topicId: number, topicIdx: number, content: string) {
+    return (dispatch: any) => {
+        commentService.createComment(topicId, content)
+            .then((data: Comment) => {
+                dispatch(success(topicIdx, data))
+            })
+            .catch(error => {
+                console.log(error.toString())
+            })
+    }
+    function success(topicIdx: number, comment: Comment) {
+        return {
+            type: ETopicActionTypes.CREATE_COMMENT_SUCCESS,
+            topicIdx: topicIdx,
+            comment
+        }
     }
 }

@@ -46,7 +46,13 @@ export type ILoadCommentsSuccessAction = {
     comments: Array<Comment>;
 }
 
-export type ITopicAction = ITopicRequestAction | IGetTopicsSuccessAction | IGetTopicsFailureAction | ICreateTopicRequestAction | ICreateTopicSuccessAction | ICreateTopicFailureAction | IVoteSuccessAction | ILoadCommentsSuccessAction
+export type ICreateCommentSuccessAction = {
+    type: ETopicActionTypes.CREATE_COMMENT_SUCCESS;
+    topicIdx: number;
+    comment: Comment;
+}
+
+export type ITopicAction = ITopicRequestAction | IGetTopicsSuccessAction | IGetTopicsFailureAction | ICreateTopicRequestAction | ICreateTopicSuccessAction | ICreateTopicFailureAction | IVoteSuccessAction | ILoadCommentsSuccessAction | ICreateCommentSuccessAction
 
 export type ITopicState = {
     loading: boolean;
@@ -90,7 +96,7 @@ export function topics(state: ITopicState = initialState, action: ITopicAction):
                 return {
                     ...state,
                     topics: update(state.topics, {
-                        [idx]: {left: {count: {$set: count+1}}}
+                        [idx]: { left: { count: { $set: count + 1 } } }
                     })
                 }
 
@@ -100,7 +106,7 @@ export function topics(state: ITopicState = initialState, action: ITopicAction):
                 return {
                     ...state,
                     topics: update(state.topics, {
-                        [idx]: {right: {count: {$set: count+1}}}
+                        [idx]: { right: { count: { $set: count + 1 } } }
                     })
                 }
             }
@@ -108,7 +114,14 @@ export function topics(state: ITopicState = initialState, action: ITopicAction):
             return {
                 ...state,
                 topics: update(state.topics, {
-                    [action.topicIdx]: {comments: {$set: state.topics[action.topicIdx].comments.concat(action.comments)}}
+                    [action.topicIdx]: { commentCount: { $set: state.topics[action.topicIdx].comments.length + action.comments.length }, comments: { $set: state.topics[action.topicIdx].comments.concat(action.comments) } }
+                })
+            }
+        case ETopicActionTypes.CREATE_COMMENT_SUCCESS:
+            return {
+                ...state,
+                topics: update(state.topics, {
+                    [action.topicIdx]: { commentCount: {$set: state.topics[action.topicIdx].comments.length+1}, comments: { $unshift: [action.comment]} }
                 })
             }
         default:

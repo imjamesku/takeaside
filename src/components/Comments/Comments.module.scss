@@ -1,3 +1,27 @@
 .commentList {
     // background-color: blue;
+    .commentForm {
+        margin-top: 1rem;
+        textarea {
+            width: 70%;
+            height: 100px;
+            font-size: large;
+            resize: none;
+        }
+
+        button {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            border-width: 0;
+            font-weight: bold;
+            color: white;
+            font-size: 1rem;
+            background-color: rgba(48, 89, 226, 0.876);
+            cursor: pointer;
+            transition: all 0.3s;
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+    }
 }
