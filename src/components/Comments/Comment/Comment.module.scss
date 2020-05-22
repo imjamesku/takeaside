@@ -1,8 +1,18 @@
 .comment {
     margin: 1rem 0;
-    // background-color: rgb(236, 236, 236);
-    padding: 0.5rem;
-    border-style: solid;
-    border-color: rgb(221, 221, 221);
-    border-width: 1.5px;
+    padding: 0.7rem 1.5rem;
+    border-width: 0;
+    background-color: white;
+    .top {
+        margin-bottom: 0.5rem;
+        .username {
+            margin-right: 0.3rem;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        .date {
+            font-size: 0.9rem;
+            color: gray;
+        }
+    }
 }

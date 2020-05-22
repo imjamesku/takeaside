@@ -106,11 +106,12 @@ function loadComments(topicId: number, topicIdx: number) {
     }
 }
 
-function createComment(topicId: number, topicIdx: number, content: string) {
+function createComment(topicId: number, topicIdx: number, content: string, clearNewComment: () => void) {
     return (dispatch: any) => {
         commentService.createComment(topicId, content)
             .then((data: Comment) => {
                 dispatch(success(topicIdx, data))
+                clearNewComment()
             })
             .catch(error => {
                 console.log(error.toString())

@@ -18,18 +18,22 @@ const Comments = (props: Props) => {
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault()
         // console.log(props.topicIdx, newComment)
-        dispatch(topicActions.createComment(props.topicId, props.topicIdx, newComment))
+        dispatch(topicActions.createComment(props.topicId, props.topicIdx, newComment, clearNewComment))
     }
     const [newComment, setNewComment] = useState('')
+    function clearNewComment() {
+        setNewComment('')
+    }
     return (
         <div className={styles.commentList}>
+            <h1>Comments</h1>
             <form className={styles.commentForm} onSubmit={handleSubmit}>
                 {/* <input type="textArea" placeholder="Leave a comment"/> */}
                 <textarea placeholder="Leave a comment" value={newComment} onChange={e => setNewComment(e.target.value)} required/>
                 <br/>
                 <button>Submit</button>
             </form>
-            {props.comments.map((comment, idx) => <Comment key={idx} content={comment.content}/>)}
+            {props.comments.map((comment, idx) => <Comment key={idx} comment={comment}/>)}
         </div>
     )
 }
