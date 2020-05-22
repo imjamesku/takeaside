@@ -10,11 +10,11 @@ export const topicService = {
 }
 
 function createTopic(formData: CreateTopicFrom){
-    return axios.post('/topics', formData).then(response => response.data)
+    return axios.post('/topics', formData).then(response => ({...response.data, comments: []}))
 }
 
 function getTopics() {
-    return axios.get('/topics').then(response => response.data)
+    return axios.get('/topics').then(response => response.data.map(topic => ({...topic, comments: []})))
 }
 
 function vote(optionId: number) {

@@ -4,9 +4,11 @@ import Topic from '../../_types/Topic'
 import styles from './TopicBox.module.scss'
 import { topicService } from '../../_services/topic_service'
 import { topicActions } from '../../_actions/topic.actions'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import ReactModal from 'react-modal'
 import Comments from '../Comments/Comments'
+import { RootState } from '../../_reducers'
+import { useRouter } from 'next/router'
 
 interface Props {
     topic: Topic;
@@ -19,16 +21,14 @@ const TopicBox = ({ topic, topicIdx }: Props) => {
     const leftPercentTage = leftLength / (leftLength + rightLength) * 100
     const rightPercentTage = rightLength / (leftLength + rightLength) * 100
     const dispatch = useDispatch()
-    // const auth = useSelector((state: RootState) => state.firebase.auth)
+    const auth = useSelector((state: RootState) => state.authentication)
+    const router = useRouter()
     function vote(optionId: number) {
-        dispatch(topicActions.vote(optionId));
-        // topicService.vote(optionId)
-        //     .then(data => console.log('data', data))
-        //     .catch(error => {
-        //         if (error.response) {
-        //             console.log('response', error.response.statusText)
-        //         }
-        //     })
+        if (auth.loggedIn && auth.user) {
+            dispatch(topicActions.vote(optionId));
+        } else {
+            router.push('/signin')
+        }
     }
     const [commentsSectionIsOpen, setCommentsSectionIsOpen] = useState(false)
     function openComments() {
@@ -74,13 +74,12 @@ const TopicBox = ({ topic, topicIdx }: Props) => {
                 </div>
             </div>
             <ReactModal
+                style={{content: {backgroundColor: '#f5f5f5'}}}
                 isOpen={commentsSectionIsOpen}
                 ariaHideApp={false}>
                 <button className={styles.closeButton} onClick={() => setCommentsSectionIsOpen(false)}>x</button>
-                <div className={styles.commentsContainer}>
-                    <h1>Comments</h1>
-                    <Comments comments={topic.comments} topicId={topic.id} topicIdx={topicIdx} />
-                </div>
+                <Comments comments={topic.comments} topicId={topic.id} topicIdx={topicIdx} />
+                
             </ReactModal>
         </>
     )

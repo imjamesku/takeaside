@@ -79,7 +79,7 @@ export function topics(state: ITopicState = initialState, action: ITopicAction):
             return {
                 loading: false,
                 error: '',
-                topics: [...state.topics, action.topic]
+                topics: [action.topic, ...state.topics]
             }
         case ETopicActionTypes.CREATE_TOPIC_FAILURE:
             return {

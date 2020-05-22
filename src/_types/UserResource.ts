@@ -2,7 +2,7 @@ type UserResource = {
     id: number;
     firstName: string;
     lastName: string;
-    userName: string;
+    username: string;
 }
 
 export default UserResource
