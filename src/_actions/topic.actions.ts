@@ -69,9 +69,11 @@ function getAll() {
                 dispatch(failure(error.toString()))
                 if (error.response) {
                     dispatch(alertActions.error(error.response.statusText))
-                } else if (error.request) {
-                    dispatch(alertActions.error(error.request))
-                } else {
+                } 
+                // else if (error.request) {
+                //     dispatch(alertActions.error(error.request))
+                // } 
+                else {
                     dispatch(alertActions.error(error.toString()));
                 }
             })

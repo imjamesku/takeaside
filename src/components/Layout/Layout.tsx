@@ -33,43 +33,55 @@ const Layout: React.FunctionComponent<Props> = ({
   const publicLinks = [
     { href: "/", text: "Home" },
     { href: "/about", text: "About" },
-    {href: "/signin", text: "Log in"}
+    { href: "/signin", text: "Log in" }
   ]
 
   const privateLinks = [
     { href: "/", text: "Home" },
     { href: "/about", text: "About" },
-    { href: "/users", text: "Users List" },
-    { href: "/profile", text: "Profile" },
+    // { href: "/users", text: "Users List" },
+    // { href: "/profile", text: "Profile" },
   ]
 
   const navLinks = loggedIn ? privateLinks : publicLinks
 
   return (
-    <div>
-      <Head>
-        <title>{title}</title>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
-      <header>
-        <nav className={styles.navBar}>
-          <Link href="/">
-            <a className={styles.brand}>pickaside.com</a>
-          </Link>
-          {navLinks.map((link, index) => <Link key={index} href={link.href}><a className={styles.navLink}>{link.text}</a></Link>)}
-          {loggedIn && <button onClick={() => dispatch(userActions.logout())}>Logout</button>}
-        </nav>
-      </header>
-      <div className={styles.container}>
-        {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
-        {children}
+    <>
+      <div className={styles.wrap}>
+        <Head>
+          <title>{title}</title>
+          <meta charSet="utf-8" />
+          <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        </Head>
+        <header>
+          <nav className={styles.navBar}>
+            <Link href="/">
+              <a className={styles.brand}>imbiased.net</a>
+            </Link>
+            {navLinks.map((link, index) => <Link key={index} href={link.href}><a className={styles.navLink}>{link.text}</a></Link>)}
+            {loggedIn && <button onClick={() => dispatch(userActions.logout())}>Logout</button>}
+          </nav>
+        </header>
+        <div className={styles.container}>
+          {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+          {children}
+        </div>
+        <footer className={styles.footer}>
+          <div>
+            <h3>About</h3>
+            <span>Fun voting platform</span>
+          </div>
+
+          <div>
+            <h3>Contact</h3>
+            <span>jameskubusiness@gmail.com</span>
+          </div>
+
+        </footer>
       </div>
-      <footer className={styles.footer}>
-        <hr />
-        <span>I'm here to stay (Footer)</span>
-      </footer>
-    </div>
+
+
+    </>
   )
 }
 

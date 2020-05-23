@@ -14,7 +14,7 @@ function createTopic(formData: CreateTopicFrom){
 }
 
 function getTopics() {
-    return axios.get('/topics').then(response => response.data.map(topic => ({...topic, comments: []})))
+    return axios.get('/topics').then(response => response.data.map((topic: any) => ({...topic, comments: []})))
 }
 
 function vote(optionId: number) {

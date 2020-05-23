@@ -1,6 +1,6 @@
 import { EAlertActionTypes } from '../_actionTypes/alert'
 
-const initialState =  { type: "", message: ""}
+const initialState: IAlertState =  { type: "", message: ""}
 
 export interface IAlertBaseAction {
     type: EAlertActionTypes;
@@ -8,7 +8,7 @@ export interface IAlertBaseAction {
 }
 
 export interface IAlertState {
-    type: 'alert-success' | 'alert-danger' | '';
+    type: string;
     message: string;
 
 }

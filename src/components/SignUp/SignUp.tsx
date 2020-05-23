@@ -36,7 +36,7 @@ const SignUp = () => {
         setUser(user => ({ ...user, [name]: value }));
     }
 
-    function handleSubmit(e) {
+    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
         setSubmitted(true);
@@ -85,7 +85,7 @@ const SignUp = () => {
                         {registering && <span className="spinner-border spinner-border-sm mr-1"></span>}
                         Register
                     </button>
-                    <Link href="/signin">Cancel</Link>
+                    <Link href="/signin"><a>Cancel</a></Link>
                 </div>
             </form>
         </div>

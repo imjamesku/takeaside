@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import {useSelector, useDispatch} from 'react-redux'
 import Link from 'next/link'
 import {RootState} from '../../_reducers'
@@ -28,7 +28,7 @@ const SignIn = () => {
         // dispatch(userActions.logout()); 
     }, [authentication]);
 
-    function handleChange(e) {
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = e.target;
         setInputs(inputs => ({ ...inputs, [name]: value }));
     }

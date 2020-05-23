@@ -1,4 +1,12 @@
-@import '../../scss/config';
+@import "../../scss/config";
+$footer-height: 100px;
+
+.wrap {
+    min-height: 100vh;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
 .navBar {
     background-color: $primary-color;
     padding: 1rem;
@@ -27,9 +35,12 @@
 }
 .container {
     margin: 0 auto;
+    flex: 1;
     padding: 2rem;
     width: 60%;
     max-width: 900px;
+    // min-height: 100vh;
+    // background-color: blue;
 }
 
 // .footer {
@@ -43,3 +54,18 @@
 //     align-content: center;
 //     padding: 10px 5px 5px;
 //   }
+
+.footer {
+    background-color: rgb(37, 37, 37);
+    color: white;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    span {
+        font-size: 0.9rem;
+    }
+    div {
+        flex-grow: 1;
+        margin: 1rem;
+    }
+}
