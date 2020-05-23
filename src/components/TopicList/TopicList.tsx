@@ -51,6 +51,9 @@ const TopicList = (props: Props) => {
                 {topics.loading ? <h2>Loading</h2> : topics.topics.map((topicData, index) => <TopicBox key={index} topic={topicData} topicIdx={index} />)}
             </div>
             <ReactModal
+                onRequestClose={closeCreateTopic}
+                shouldCloseOnEsc
+                shouldCloseOnOverlayClick
                 ariaHideApp={false}
                 style={{content: {
                     backgroundColor: "#e3e3e3",

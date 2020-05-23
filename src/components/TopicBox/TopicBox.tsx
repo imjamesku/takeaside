@@ -74,6 +74,9 @@ const TopicBox = ({ topic, topicIdx }: Props) => {
                 </div>
             </div>
             <ReactModal
+                onRequestClose={() => setCommentsSectionIsOpen(false)}
+                shouldCloseOnEsc
+                shouldCloseOnOverlayClick
                 style={{content: {backgroundColor: '#f5f5f5'}}}
                 isOpen={commentsSectionIsOpen}
                 ariaHideApp={false}>
