@@ -4,6 +4,7 @@ import { alertActions } from './alert.actions';
 // import { history } from '../_helpers/history';
 import User from '../_types/User';
 import UserRegisterFormData from '../_types/UserRegisterFormData';
+import parseJSON from '../_helpers/parseJSON';
 
 export const userActions = {
     loadUser,
@@ -23,9 +24,8 @@ function loadUser() {
     return (dispatch: any) => {
         const storedData = localStorage.getItem('user')
         if (storedData){
-            const user = JSON.parse(storedData)
+            const user = parseJSON(storedData)
             if (user) {
-                console.log(success(user))
                 // console.log(user)
                 dispatch(success(user))
             }
@@ -43,8 +43,8 @@ function login(username: string, password: string) {
         userService.login(username, password)
             .then(
                 (user: any) => { 
+                    localStorage.setItem('user', JSON.stringify(user))
                     dispatch(success(user));
-                    //TODO: redirect after login
                 },
                 (error: any) => {
                     dispatch(failure(error.toString()));

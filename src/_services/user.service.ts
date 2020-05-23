@@ -1,5 +1,6 @@
 import {authHeader} from '../_helpers/authHeader'
 import UserRegisterFormData from '../_types/UserRegisterFormData';
+import axios from '../_helpers/axios';
 
 export const userService = {
     login,
@@ -8,21 +9,8 @@ export const userService = {
 }
 
 function login(username: string, password: string) {
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-    };
-
-    return fetch(`${process.env.API_URL}/users/authenticate`, requestOptions)
-        .then(handleResponse)
-        .then(user => {
-            // console.log(user)
-            // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('user', JSON.stringify(user));
-
-            return user;
-    });
+    return axios.post('/users/authenticate', {username, password})
+        .then((response: any) => {return response.data})
 }
 
 function logout() {
@@ -31,14 +19,8 @@ function logout() {
 }
 
 function register(user: UserRegisterFormData) {
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
-    };
-
-    return fetch(`${process.env.API_URL}/users/register`, requestOptions)
-        .then(handleResponse)
+    return axios.post('/users/register', user)
+    .then((response: any) => {return response.data})
 };
 
 
