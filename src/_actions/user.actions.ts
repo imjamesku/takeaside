@@ -23,16 +23,16 @@ function loadUser() {
     }
     return (dispatch: any) => {
         const storedData = localStorage.getItem('user')
-        if (storedData){
+        if (storedData) {
             const user = parseJSON(storedData)
             if (user) {
                 // console.log(user)
                 dispatch(success(user))
             }
         }
-       
+
     }
-    
+
 }
 
 function login(username: string, password: string) {
@@ -42,13 +42,21 @@ function login(username: string, password: string) {
 
         userService.login(username, password)
             .then(
-                (user: any) => { 
+                (user: any) => {
                     localStorage.setItem('user', JSON.stringify(user))
                     dispatch(success(user));
                 },
                 (error: any) => {
+                    if (error.response) {
+                        dispatch(alertActions.error(error.response.data.message))
+                    } else if (error.request) {
+                        dispatch(alertActions.error("No response from server"))
+                    }
+                    else {
+                        dispatch(alertActions.error(error.toString()));
+                    }
                     dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
+
                 }
             );
     };
@@ -64,7 +72,7 @@ function logout() {
 }
 
 function register(user: UserRegisterFormData, setSubmitted: React.Dispatch<React.SetStateAction<boolean>>) {
-    return async (dispatch:any) => {
+    return async (dispatch: any) => {
         dispatch(request());
 
         try {
@@ -74,7 +82,15 @@ function register(user: UserRegisterFormData, setSubmitted: React.Dispatch<React
             setSubmitted(false)
         } catch (error) {
             dispatch(failure(error.toString()));
-            dispatch(alertActions.error(error.toString()));
+            if (error.response) {
+                dispatch(alertActions.error(error.response.data.message))
+            } else if (error.request) {
+                dispatch(alertActions.error("No response from server"))
+            }
+            else {
+                dispatch(alertActions.error(error.toString()));
+            }
+            // dispatch(alertActions.error(error.toString()));
         }
     };
 
