@@ -3,7 +3,9 @@ import Comment from './Comment/Comment'
 import styles from './Comments.module.scss'
 import CommentType from '../../_types/Comment'
 import { topicActions } from '../../_actions/topic.actions'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../_reducers'
+import { useRouter } from 'next/router'
 
 interface Props {
     topicId: number;
@@ -15,10 +17,16 @@ interface Props {
 
 const Comments = (props: Props) => {
     const dispatch = useDispatch()
+    const auth = useSelector((state: RootState) => state.authentication)
+    const router = useRouter()
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault()
         // console.log(props.topicIdx, newComment)
-        dispatch(topicActions.createComment(props.topicId, props.topicIdx, newComment, clearNewComment))
+        if (auth.loggedIn && auth.user) {
+            dispatch(topicActions.createComment(props.topicId, props.topicIdx, newComment, clearNewComment))
+        } else {
+            router.push('/signin')
+        }
     }
     const [newComment, setNewComment] = useState('')
     function clearNewComment() {
