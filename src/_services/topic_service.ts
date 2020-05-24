@@ -10,7 +10,7 @@ export const topicService = {
 }
 
 function createTopic(formData: CreateTopicFrom){
-    return axios.post('/topics', formData).then(response => ({...response.data, comments: []}))
+    return axios.post('/topics', formData).then(response => (response.data))
 }
 
 function getTopics() {

@@ -1,15 +1,14 @@
-import React, { useState, SyntheticEvent, FormEvent } from 'react'
+import React, { useState, FormEvent } from 'react'
 import styles from './CreateTopicForm.module.scss'
-import { topicActions } from '../../_actions/topic.actions';
-import { useDispatch } from 'react-redux';
+import {mutate} from 'swr'
+import { topicService } from '../../_services/topic_service';
+import Topic from '../../_types/Topic';
 
 interface Props {
     
 }
 
 const CreateTopicForm = (props: Props) => {
-
-    const dispatch = useDispatch()
 
     const [formData, setFormData] = useState({
         question: '',
@@ -27,10 +26,15 @@ const CreateTopicForm = (props: Props) => {
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         setAlert('')
         e.preventDefault()
-        dispatch(topicActions.createTopic(formData, () => {
-            setFormData({question: '', left: '', right: ''})
-            setAlert('Topic created!')
-        }))
+        topicService.createTopic(formData)
+            .then((newTopic: any) => {
+                mutate('/topics', (topics: Array<Topic>) => topics ? [newTopic, ...topics] : [newTopic])
+                setFormData({question: '', left: '', right: ''})
+                setAlert('Topic Created')
+            })
+            .catch(error => {
+                setAlert('Failed to create the topic')
+            })
     }
     return (
         <div className={styles.createTopic}>
