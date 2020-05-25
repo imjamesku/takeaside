@@ -14,7 +14,7 @@ import Topic from '../../_types/Topic'
 
 interface Props {
     topicId: number;
-    topicIdx?: number;
+    topicIdx?: any;
     centered?: boolean;
 }
 
