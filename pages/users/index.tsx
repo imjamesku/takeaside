@@ -6,32 +6,24 @@ import { sampleUserData } from '../../utils/sample-data'
 import Layout from '../../src/components/Layout/Layout'
 import List from '../../src/components/List'
 
-type Props = {
-  items: User[]
+import React, { ReactElement } from 'react'
+import useSWR from 'swr'
+import axios from '../../src/_helpers/axios'
+import UserResource from '../../src/_types/UserResource'
+import UserListing from '../../src/components/UserListing/UserListing'
+interface Props {
+  
 }
 
-const WithStaticProps = ({ items }: Props) => (
-  <Layout title="Users List | Next.js + TypeScript Example">
-    <h1>Users List</h1>
-    <p>
-      Example fetching data from inside <code>getStaticProps()</code>.
-    </p>
-    <p>You are currently on: /users</p>
-    <List items={items} />
-    <p>
-      <Link href="/">
-        <a>Go home</a>
-      </Link>
-    </p>
-  </Layout>
-)
-
-export const getStaticProps: GetStaticProps = async () => {
-  // Example for including static props in a Next.js function component page.
-  // Don't forget to include the respective types for any props passed into
-  // the component.
-  const items: User[] = sampleUserData
-  return { props: { items } }
+function index({}: Props): ReactElement {
+  const fetcher = (key: string) => axios.get(key).then((res: any) => res.data)
+  const {data, error} = useSWR<Array<UserResource>>(`/users`, fetcher)
+  return (
+    <Layout title="Users | imbiased">
+      <h1>Users</h1>
+      {data ? data.map(user => <UserListing userData={user}/>) : <h2>Loading</h2>}
+    </Layout>
+  )
 }
 
-export default WithStaticProps
+export default index

@@ -5,4 +5,12 @@ type UserResource = {
     username: string;
 }
 
+export type TopicEssentialData = {
+    id: number;
+    question: string;
+}
+
+export type UserResourceWithTopics = UserResource & {
+    topics: Array<TopicEssentialData>;
+}
 export default UserResource

@@ -1,0 +1,11 @@
+@import '../../scss/config';
+.listing {
+    margin: 1rem 0;
+    cursor: pointer;
+    background-color: darken($color:$background-color, $amount: 3%);
+    padding: 0.8rem;
+    transition: all 0.3s;
+    &:hover {
+        background-color: darken($color:$background-color, $amount: 10%);
+    }
+}

@@ -15,6 +15,7 @@ import instance from '../../src/_helpers/axios.server'
 import update from 'immutability-helper'
 import Comments from '../../src/components/Comments/Comments'
 import CopyToClipboard from 'react-copy-to-clipboard'
+import Link from 'next/link'
 
 
 interface Props {
@@ -61,7 +62,7 @@ const TopicDetailPage = ({serverTopicData, error}: Props) => {
             <Layout>
                 <div className={styles.title}>
                     <h1>{topicData.question}</h1>
-                    <span>Created by {topicData.userName} - {moment.utc(topicData.createdAt).fromNow()}</span>
+                    <span>Created by <Link href={`/users/${topicData.userId}`}><a className={styles.handle}>@{topicData.userName}</a></Link> - {moment.utc(topicData.createdAt).fromNow()}</span>
                 </div>
                 <span>Share: </span>
                 <CopyToClipboard text={`${process.env.NEXT_PUBLIC_FRONTEND_URL}/topic/${id}`} onCopy={() => {
