@@ -78,15 +78,13 @@ const TopicBox = ({ topic, topicIdx }: Props) => {
                 </div>
                 <div className={styles.bottom}>
                     <span onClick={openComments} style={{ cursor: 'pointer' }}>{topic.commentCount} comments</span>
-                    <div>
-                        <span>Share: </span>
+                    
                         <CopyToClipboard text={`${process.env.NEXT_PUBLIC_FRONTEND_URL}/topic/${topic.id}`} onCopy={() => {
                             setCopied(true)
                             alert("copied")
                         }}>
-                            <button className={styles.shareButton}>Copy URL</button>
+                            <span className={styles.shareButton}>Copy URL</span>
                         </CopyToClipboard>
-                    </div>
 
 
                     <span>{topic.left.count + topic.right.count} votes</span>
