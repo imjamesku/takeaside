@@ -1,6 +1,6 @@
 export default interface User {
-    firstName: string;
     id: number;
+    firstName: string;
     lastName: string;
     token: string;
     userName: string;

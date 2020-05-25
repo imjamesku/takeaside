@@ -8,13 +8,13 @@ import { useRouter } from 'next/router'
 import useSWR from 'swr'
 import axios from '../../_helpers/axios'
 import { commentService } from '../../_services/comment._service'
-import {mutate} from 'swr'
+import { mutate } from 'swr'
 import update from 'immutability-helper'
 import Topic from '../../_types/Topic'
 
 interface Props {
     topicId: number;
-    topicIdx?: any;
+    topicIdx?: number;
     centered?: boolean;
 }
 
@@ -22,7 +22,10 @@ const Comments = (props: Props) => {
     function commentsFetcher(key: string) {
         return axios.get(key).then((res: any) => res.data)
     }
-    let {data, error, mutate: commentMutate} = useSWR<CommentType[]>(`comment/${props.topicId}`, commentsFetcher)
+    let { data, error, mutate: commentMutate } = useSWR<CommentType[]>(`comment/${props.topicId}`, commentsFetcher)
+    function deleteCommentFromCache(commentId: number) {
+        commentMutate(data ? data.filter(comment => comment.id !== commentId) : [])
+    }
     const auth = useSelector((state: RootState) => state.authentication)
     const router = useRouter()
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -30,8 +33,9 @@ const Comments = (props: Props) => {
         if (auth.loggedIn && auth.user) {
             commentService.createComment(props.topicId, newComment)
                 .then((newCommentResponse: CommentType) => {
-                    if (props.topicIdx){
-                        mutate('/topics', (topics: Array<Topic>) => update(topics, {[props.topicIdx]: {commentCount: {$set: topics[props.topicIdx].commentCount + 1}}}))
+                    console.log(props.topicIdx)
+                    if (props.topicIdx || props.topicIdx === 0) {
+                        mutate('/topics', (topics: Array<Topic>) => update(topics, { [props.topicIdx as number]: { commentCount: { $set: topics[props.topicIdx as number].commentCount + 1 } } }))
                     }
                     if (data) {
                         commentMutate([newCommentResponse, ...data])
@@ -58,11 +62,11 @@ const Comments = (props: Props) => {
         <div className={commentListClasses}>
             <h1>Comments</h1>
             <form className={styles.commentForm} onSubmit={handleSubmit}>
-                <textarea placeholder="Leave a comment" value={newComment} onChange={e => setNewComment(e.target.value)} required/>
-                <br/>
+                <textarea placeholder="Leave a comment" value={newComment} onChange={e => setNewComment(e.target.value)} required />
+                <br />
                 <button>Submit</button>
             </form>
-            {error ? <p>Error loading comments</p> : data ? data.map((comment, idx) => <Comment key={idx} comment={comment}/>) : <p>loading</p>}
+            {error ? <p>Error loading comments</p> : data ? data.map((comment, idx) => <Comment key={idx} comment={comment} topicIdx={props.topicIdx} deleteCommentFromCache={deleteCommentFromCache} />) : <p>loading</p>}
         </div>
     )
 }
