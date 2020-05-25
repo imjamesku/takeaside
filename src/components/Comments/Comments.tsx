@@ -14,8 +14,8 @@ import Topic from '../../_types/Topic'
 
 interface Props {
     topicId: number;
-    topicIdx: number;
-    comments: Array<CommentType>
+    topicIdx?: number;
+    centered?: boolean;
 }
 
 const Comments = (props: Props) => {
@@ -30,7 +30,9 @@ const Comments = (props: Props) => {
         if (auth.loggedIn && auth.user) {
             commentService.createComment(props.topicId, newComment)
                 .then((newCommentResponse: CommentType) => {
-                    mutate('/topics', (topics: Array<Topic>) => update(topics, {[props.topicIdx]: {commentCount: {$set: topics[props.topicIdx].commentCount + 1}}}))
+                    if (props.topicIdx){
+                        mutate('/topics', (topics: Array<Topic>) => update(topics, {[props.topicIdx]: {commentCount: {$set: topics[props.topicIdx].commentCount + 1}}}))
+                    }
                     if (data) {
                         commentMutate([newCommentResponse, ...data])
                     } else {
@@ -51,8 +53,9 @@ const Comments = (props: Props) => {
     function clearNewComment() {
         setNewComment('')
     }
+    const commentListClasses = props.centered ? `${styles.commentList} ${styles.centered}` : `${styles.commentList}`
     return (
-        <div className={styles.commentList}>
+        <div className={commentListClasses}>
             <h1>Comments</h1>
             <form className={styles.commentForm} onSubmit={handleSubmit}>
                 <textarea placeholder="Leave a comment" value={newComment} onChange={e => setNewComment(e.target.value)} required/>

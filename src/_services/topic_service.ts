@@ -6,7 +6,8 @@ export const topicService = {
     getTopics,
     handleError,
     vote,
-    createTopic
+    createTopic,
+    getTopicById
 }
 
 function createTopic(formData: CreateTopicFrom){
@@ -14,7 +15,11 @@ function createTopic(formData: CreateTopicFrom){
 }
 
 function getTopics() {
-    return axios.get('/topics').then(response => response.data.map((topic: any) => ({...topic, comments: []})))
+    return axios.get('/topics').then(response => response.data)
+}
+
+function getTopicById(id: string) {
+    return axios.get(`/topics/${id}`).then(response => response.data)
 }
 
 function vote(optionId: number) {

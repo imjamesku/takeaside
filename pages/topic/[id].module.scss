@@ -1,0 +1,59 @@
+@import '../../src/scss/config';
+
+.title {
+    span {
+        color: rgb(119, 119, 119);
+    }
+}
+
+.bar {
+    margin: 3rem 0;
+}
+.shareButton {
+    border-width: 0;
+    padding: 0.5rem;
+    cursor: pointer;
+    margin: 1rem 0;
+    font-weight: bold;
+    background-color: rgb(255, 255, 255);
+    transition: all 0.3s;
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+
+.sides {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 5rem 0;
+    button {
+        font-weight: bold;
+        border-width: 0;
+        color: white;
+        font-size: 1.6rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        // flex-grow: 3;
+        &:hover {
+            transform: scale(1.2);
+            transition: all 0.3s;
+        }
+    }
+    .voteCount {
+        font-size: 1.5rem;
+        margin: 1rem 0;
+    }
+    .left {
+        // display: flex;
+        flex-flow: column;
+        button {
+            background-color:$left-color;
+        }
+    }
+    .right {
+        justify-self: right;
+        button {
+            background-color:$right-color;
+        }
+    }
+}

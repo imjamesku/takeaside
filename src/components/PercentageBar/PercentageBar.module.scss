@@ -1,0 +1,64 @@
+@import '../../scss/config';
+
+.bar {
+    background-color: #353b48;
+    // display: block;
+    position: relative;
+    height: 5px;
+    // border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    // box-shadow: 0 0 3px #2187e7b3;
+    .leftSide {
+        height: 100%;
+        position: relative;
+        float: left;
+        transition: all 0.3s;
+        background-color: $left-color;
+        .percentage {
+            position: absolute;
+            color: white;
+            padding: 0.2rem;
+            left: calc(50% - 15px);
+            top: -31px;
+            // color: white;
+            background-color: $left-color;
+            &::after {
+                content: '';
+                width: 10px;
+                height: 10px;
+                top: calc(100% - 5px);
+                left: calc(50% - 5px);
+                background-color:$left-color;
+                position: absolute;
+                transform: rotate(45deg);
+            }
+        }
+
+    }
+    .rightSide {
+        height: 100%;
+        float: left;
+        position: relative;
+        background-color: $right-color;
+        transition: all 0.3s;
+        .percentage {
+            position: absolute;
+            // width: 1rem;
+            left: calc(50% - 15px);
+            top: -31px;
+            color: white;
+            padding: 0.2rem;
+            background-color: $right-color;
+            &::after {
+                content: '';
+                width: 10px;
+                height: 10px;
+                top: calc(100% - 5px);
+                left: calc(50% - 5px);
+                background-color:$right-color;
+                position: absolute;
+                transform: rotate(45deg);
+            }
+        }
+    }
+}

@@ -8,7 +8,7 @@ type Topic = {
     left: Option;
     right: Option;
     commentCount: number;
-    comments: Array<Comment>;
+    createdAt: Date;
 }
 
 export default Topic

@@ -8,8 +8,11 @@ import ReactModal from 'react-modal'
 import Comments from '../Comments/Comments'
 import { RootState } from '../../_reducers'
 import { useRouter } from 'next/router'
-import {mutate} from 'swr'
+import { mutate } from 'swr'
 import update from 'immutability-helper'
+import Link from 'next/link'
+import PercentageBar from '../PercentageBar/PercentageBar'
+import CopyToClipboard from 'react-copy-to-clipboard'
 
 interface Props {
     topic: Topic;
@@ -17,10 +20,9 @@ interface Props {
 }
 
 const TopicBox = ({ topic, topicIdx }: Props) => {
+    const [copied, setCopied] = useState(false)
     const leftLength = topic.left.count
     const rightLength = topic.right.count
-    const leftPercentTage = leftLength / (leftLength + rightLength) * 100
-    const rightPercentTage = rightLength / (leftLength + rightLength) * 100
     const auth = useSelector((state: RootState) => state.authentication)
     const router = useRouter()
     function vote(optionId: number) {
@@ -28,9 +30,9 @@ const TopicBox = ({ topic, topicIdx }: Props) => {
             topicService.vote(optionId)
                 .then(data => {
                     if (optionId === topic.left.id) {
-                        mutate('/topics', (topics: Array<Topic>) => update(topics, {[topicIdx]: {left: {count: {$set: topic.left.count+1}}}}))
+                        mutate('/topics', (topics: Array<Topic>) => update(topics, { [topicIdx]: { left: { count: { $set: topic.left.count + 1 } } } }))
                     } else if (optionId === topic.right.id) {
-                        mutate('/topics', (topics: Array<Topic>) => update(topics, {[topicIdx]: {right: {count: {$set: topic.right.count+1}}}}))
+                        mutate('/topics', (topics: Array<Topic>) => update(topics, { [topicIdx]: { right: { count: { $set: topic.right.count + 1 } } } }))
                     }
                 })
                 .catch(error => {
@@ -40,7 +42,7 @@ const TopicBox = ({ topic, topicIdx }: Props) => {
                         alert("Something went wrong")
                     }
                 })
-            
+
             // dispatch(topicActions.vote(optionId));
         } else {
             router.push('/signin')
@@ -53,9 +55,14 @@ const TopicBox = ({ topic, topicIdx }: Props) => {
 
     return (
         <>
-            <div className={styles.topicBox}>
+            <div className={styles
+                .topicBox}>
+                <div className={styles.title}>
+                    <Link href={`/topic/${topic.id}`}>
+                        <h2>{topic.question}</h2>
+                    </Link>
+                </div>
 
-                <h2>{topic.question}</h2>
                 <div className={styles.content}>
                     <div className={styles.contentTextAndButtons}>
                         <div className={styles.left}>
@@ -67,22 +74,21 @@ const TopicBox = ({ topic, topicIdx }: Props) => {
                             <button className={styles.vote} onClick={() => vote(topic.right.id)}>VOTE</button>
                         </div>
                     </div>
-                    <div className={styles.bar}>
-                        {leftLength + rightLength > 0 &&
-                            <>
-                                <div className={styles.leftSide} style={{ width: `${leftPercentTage}%` }}>
-                                    <span className={styles.percentage}>{Math.trunc(leftPercentTage)}%</span>
-                                </div>
-                                <div className={styles.rightSide} style={{ width: `${rightPercentTage}%` }}>
-                                    <span className={styles.percentage}>{Math.trunc(rightPercentTage)}%</span>
-                                </div>
-                            </>
-
-                        }
-                    </div>
+                    <PercentageBar leftVotes={leftLength} rightVotes={rightLength} />
                 </div>
                 <div className={styles.bottom}>
                     <span onClick={openComments} style={{ cursor: 'pointer' }}>{topic.commentCount} comments</span>
+                    <div>
+                        <span>Share: </span>
+                        <CopyToClipboard text={`${process.env.NEXT_PUBLIC_FRONTEND_URL}/topic/${topic.id}`} onCopy={() => {
+                            setCopied(true)
+                            alert("copied")
+                        }}>
+                            <button className={styles.shareButton}>Copy URL</button>
+                        </CopyToClipboard>
+                    </div>
+
+
                     <span>{topic.left.count + topic.right.count} votes</span>
                 </div>
             </div>
@@ -91,12 +97,14 @@ const TopicBox = ({ topic, topicIdx }: Props) => {
                 shouldCloseOnEsc
                 shouldCloseOnOverlayClick
                 closeTimeoutMS={50}
-                style={{content: {backgroundColor: '#f5f5f5', maxWidth: "900px", width: "90%", margin: "0 auto"}}}
+                style={{ content: { backgroundColor: '#f5f5f5', maxWidth: "900px", width: "90%", margin: "0 auto" } }}
                 isOpen={commentsSectionIsOpen}
                 ariaHideApp={false}>
                 <button className={styles.closeButton} onClick={() => setCommentsSectionIsOpen(false)}>x</button>
-                <Comments comments={topic.comments} topicId={topic.id} topicIdx={topicIdx} />
-                
+                <div className={styles.commentsContainer}>
+                    <Comments centered topicId={topic.id} topicIdx={topicIdx} />
+                </div>
+
             </ReactModal>
         </>
     )

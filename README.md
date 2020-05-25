@@ -3,6 +3,8 @@ Voting platform built with next.js
 
 This is a really simple project that shows the usage of Next.js with TypeScript.
 
+Demo: https://imbiased.net
+
 ## Deploy your own
 
 Deploy the example using [Vercel](https://vercel.com):

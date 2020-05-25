@@ -1,6 +1,5 @@
 .commentList {
-    margin: 0 auto;
-    max-width: 600px;
+    // max-width: 600px;
     .commentForm {
         margin-top: 1rem;
         textarea {
@@ -9,6 +8,7 @@
             font-size: large;
             resize: none;
             border-width: 0;
+            padding: 0.7rem 1rem;
         }
 
         button {
@@ -26,4 +26,9 @@
             }
         }
     }
+}
+
+.centered {
+    margin: 0 auto;
+    max-width: 600px;
 }

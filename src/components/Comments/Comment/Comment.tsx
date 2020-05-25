@@ -12,7 +12,7 @@ const Comment = ({comment}: Props) => {
         <div className={styles.comment}>
             <div className={styles.top}>
                 <span className={styles.username}>{comment.user.username}</span>
-                <span className={styles.date}>{moment(comment.createdAt).fromNow()}</span>
+                <span className={styles.date}>{moment.utc(comment.createdAt).fromNow()}</span>
             </div>
             <p>
                 {comment.content}
