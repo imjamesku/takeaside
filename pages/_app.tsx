@@ -1,21 +1,19 @@
 import { AppProps } from 'next/app'
 import '../src/scss/styles.scss'
-import {store} from '../src/_helpers/store'
-import { Provider, useDispatch } from 'react-redux'
-import { useEffect } from 'react'
-import {userActions} from '../src/_actions/user.actions'
+import { store } from '../src/_helpers/store'
+import { Provider } from 'react-redux'
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3'
 
-//setup fake backend
-// import { configureFakeBackend } from '../src/_helpers/fake-backend'
-// configureFakeBackend()
 
 function MyApp({ Component, pageProps }: AppProps) {
     // Todo: load token from localstorage
-    
+
     return (
-        <Provider store={store}>
-            <Component {...pageProps} id="app" />
-        </Provider>
+        <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_GOOGLE_RECAPTCHA_SITE_KEY}>
+            <Provider store={store}>
+                <Component {...pageProps} id="app" />
+            </Provider>
+        </GoogleReCaptchaProvider>
     )
 }
 

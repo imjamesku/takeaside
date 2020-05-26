@@ -3,6 +3,7 @@ import styles from './CreateTopicForm.module.scss'
 import {mutate} from 'swr'
 import { topicService } from '../../_services/topic_service';
 import Topic from '../../_types/Topic';
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3"
 
 interface Props {
     
@@ -15,7 +16,7 @@ const CreateTopicForm = (props: Props) => {
         left: '',
         right: ''
     })
-
+    const {executeRecaptcha} = useGoogleReCaptcha()
     const [alert, setAlert] = useState('')
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -23,10 +24,15 @@ const CreateTopicForm = (props: Props) => {
         setFormData(inputs => ({ ...inputs, [name]: value }));
     }
 
-    function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    async function handleSubmit(e: FormEvent<HTMLFormElement>) {
         setAlert('')
         e.preventDefault()
-        topicService.createTopic(formData)
+        if (!executeRecaptcha) {
+            window.alert("something went wrong")
+            return
+        }
+        const token = await executeRecaptcha("createTopic")
+        topicService.createTopic(formData, token)
             .then((newTopic: any) => {
                 mutate('/topics', (topics: Array<Topic>) => topics ? [newTopic, ...topics] : [newTopic])
                 setFormData({question: '', left: '', right: ''})

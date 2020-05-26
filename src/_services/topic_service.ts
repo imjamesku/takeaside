@@ -10,8 +10,8 @@ export const topicService = {
     getTopicById
 }
 
-function createTopic(formData: CreateTopicFrom){
-    return axios.post('/topics', formData).then(response => (response.data))
+function createTopic(formData: CreateTopicFrom, captchaToken: string){
+    return axios.post('/topics', {...formData, token: captchaToken}).then(response => (response.data))
 }
 
 function getTopics() {

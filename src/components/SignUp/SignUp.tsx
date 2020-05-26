@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { userActions } from "../../_actions/user.actions";
 import { useRouter } from "next/router";
 import { RootState } from "../../_reducers";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3"
+
 
 const SignUp = () => {
     const [user, setUser] = useState({
@@ -19,37 +21,42 @@ const SignUp = () => {
     const dispatch = useDispatch();
     const loggedIn = useSelector((state: RootState) => state.authentication.loggedIn)
     const router = useRouter()
+    const { executeRecaptcha } = useGoogleReCaptcha()
+
 
     useEffect(() => {
         if (loggedIn) {
             router.push('/')
         }
-        // dispatch(userActions.logout()); 
     }, [loggedIn]);
 
-    // useEffect(() => {
-    //     dispatch(userActions.logout());
-    // }, []);
+    function resetForm() {
+        setSubmitted(false)
+        setUser({
+            firstName: '',
+            lastName: '',
+            username: '',
+            password: ''
+        })
+    }
+
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = e.target;
         setUser(user => ({ ...user, [name]: value }));
     }
 
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-
+        if (!executeRecaptcha) {
+            window.alert("something went wrong")
+            return
+        }
+        const token = await executeRecaptcha("register")
         setSubmitted(true);
         if (user.firstName && user.lastName && user.username && user.password) {
-            dispatch(userActions.register(user, setSubmitted));
-            setUser({
-                firstName: '',
-                lastName: '',
-                username: '',
-                password: ''
-            })
-            
-        }
+            dispatch(userActions.register(user, token, resetForm));        }
+
     }
 
     return (

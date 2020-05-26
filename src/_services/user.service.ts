@@ -18,8 +18,8 @@ function logout() {
     localStorage.removeItem('user');
 }
 
-function register(user: UserRegisterFormData) {
-    return axios.post('/users/register', user)
+function register(user: UserRegisterFormData, token: string) {
+    return axios.post('/users/register', {...user, token})
     .then((response: any) => {return response.data})
 };
 

@@ -71,15 +71,15 @@ function logout() {
     return { type: EUserActionTypes.LOGOUT };
 }
 
-function register(user: UserRegisterFormData, setSubmitted: React.Dispatch<React.SetStateAction<boolean>>) {
+function register(user: UserRegisterFormData, token: string, resetForm: () => void) {
     return async (dispatch: any) => {
         dispatch(request());
 
         try {
-            await userService.register(user)
+            await userService.register(user, token)
             dispatch(success());
             dispatch(alertActions.success('Registration successful. Please Log in'));
-            setSubmitted(false)
+            resetForm()
         } catch (error) {
             dispatch(failure(error.toString()));
             if (error.response) {
