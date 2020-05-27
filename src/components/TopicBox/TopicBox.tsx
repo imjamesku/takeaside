@@ -56,7 +56,7 @@ const TopicBox = ({ topic, topicIdx, mutateCommentCount, mutateVoteCount }: Prop
             <div className={styles
                 .topicBox}>
                 <div className={styles.title}>
-                    <Link href={`/topic/${topic.id}`}>
+                    <Link href="/topic/[id]" as={`/topic/${topic.id}`}>
                         <h2>{topic.question}</h2>
                     </Link>
                 </div>
