@@ -4,7 +4,6 @@ import useSWR from 'swr'
 import {UserResourceWithTopics} from '../../src/_types/UserResource'
 import axios from '../../src/_helpers/axios'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
 import TopicEssentialList from '../../src/components/TopicEssentialList/TopicEssentialList'
 import styles from './[id].module.scss'
 

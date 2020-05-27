@@ -23,25 +23,25 @@ interface Props {
     error: string;
 }
 
-const TopicDetailPage = ({serverTopicData, error}: Props) => {
+const TopicDetailPage = ({ serverTopicData, error }: Props) => {
     const router = useRouter()
-    const {id} = router.query
+    const { id } = router.query
     const auth = useSelector((state: RootState) => state.authentication)
-    const topicFetcher = (key: string) => instance.get(key).then(res =>res.data)
-    const {data: topicData, error: swrError, mutate} = useSWR<Topic>(`/topics/${id}`, topicFetcher, {initialData: serverTopicData})
+    const topicFetcher = (key: string) => instance.get(key).then(res => res.data)
+    const { data: topicData, error: swrError, mutate } = useSWR<Topic>(`/topics/${id}`, topicFetcher, { initialData: serverTopicData })
     const [copied, setCopied] = useState(false)
     function vote(optionId: number) {
         if (auth.loggedIn && auth.user) {
             topicService.vote(optionId)
                 .then(data => {
-                    if (!topicData){
+                    if (!topicData) {
                         return
                     }
                     if (optionId === topicData.left.id) {
-                        mutate(update(topicData, {left: {count: {$set: topicData.left.count+1}}}))
+                        mutate(update(topicData, { left: { count: { $set: topicData.left.count + 1 } } }))
 
                     } else if (optionId === topicData.right.id) {
-                        mutate(update(topicData, {right: {count: {$set: topicData.right.count+1}}}))
+                        mutate(update(topicData, { right: { count: { $set: topicData.right.count + 1 } } }))
                     }
                 })
                 .catch(error => {
@@ -62,7 +62,7 @@ const TopicDetailPage = ({serverTopicData, error}: Props) => {
             <Layout>
                 <div className={styles.title}>
                     <h1>{topicData.question}</h1>
-                    <span>Created by <Link href={`/users/${topicData.userId}`}><a className={styles.handle}>@{topicData.userName}</a></Link> - {moment.utc(topicData.createdAt).fromNow()}</span>
+                    <span>Created by <Link href="/users/[id]" as={`/users/${topicData.userId}`}><a className={styles.handle}>@{topicData.userName}</a></Link> - {moment.utc(topicData.createdAt).fromNow()}</span>
                 </div>
                 <span>Share: </span>
                 <CopyToClipboard text={`${process.env.NEXT_PUBLIC_FRONTEND_URL}/topic/${id}`} onCopy={() => {
@@ -72,7 +72,7 @@ const TopicDetailPage = ({serverTopicData, error}: Props) => {
                     <button className={styles.shareButton}>Copy URL</button>
                 </CopyToClipboard>
                 <div className={styles.bar}>
-                    <PercentageBar leftVotes={topicData.left.count} rightVotes={topicData.right.count}/>
+                    <PercentageBar leftVotes={topicData.left.count} rightVotes={topicData.right.count} />
                 </div>
                 <div className={styles.sides}>
                     <div className={styles.left}>
@@ -88,29 +88,29 @@ const TopicDetailPage = ({serverTopicData, error}: Props) => {
                     </div>
                 </div>
                 <Comments
-                    topicId={topicData.id}/>
+                    topicId={topicData.id} />
             </Layout>
         )
     }
     return (
-    <Layout>
-        <h1>Error</h1>
-    </Layout>)
-    
+        <Layout>
+            <h1>Error</h1>
+        </Layout>)
+
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     try {
-        if (context.params){
+        if (context.params) {
             const id = context.params.id
             if (typeof id === "string") {
-                const res = await axios.get(`/topics/${id}`)                
-                return {props: {serverTopicData: res.data, error: ""}}
+                const res = await axios.get(`/topics/${id}`)
+                return { props: { serverTopicData: res.data, error: "" } }
             }
         }
-        return {props: {serverTopicData: null, error: "Failed to fetch topic data"}}
-    } catch(error) {
-        return {props: {serverTopicData: null, error: "Failed to fetch topic data"}}
+        return { props: { serverTopicData: null, error: "Failed to fetch topic data" } }
+    } catch (error) {
+        return { props: { serverTopicData: null, error: "Failed to fetch topic data" } }
     }
 }
 

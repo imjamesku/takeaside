@@ -12,7 +12,7 @@ const TopicEssentialList = ({topics}: Props) => {
     return (
         <div>
             {topics.map(topic => (
-                <Link href={`/topic/${topic.id}`}>
+                <Link href="/topic/[id]" as={`/topic/${topic.id}`}>
                 <div className={styles.listing}>
                     <h3>{topic.question}</h3>
                 </div>
