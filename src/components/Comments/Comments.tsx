@@ -16,6 +16,7 @@ interface Props {
     topicId: number;
     topicIdx?: number;
     centered?: boolean;
+    mutateCommentCount?: (addend: number) => void;
 }
 
 const Comments = (props: Props) => {
@@ -33,9 +34,8 @@ const Comments = (props: Props) => {
         if (auth.loggedIn && auth.user) {
             commentService.createComment(props.topicId, newComment)
                 .then((newCommentResponse: CommentType) => {
-                    console.log(props.topicIdx)
                     if (props.topicIdx || props.topicIdx === 0) {
-                        mutate('/topics', (topics: Array<Topic>) => update(topics, { [props.topicIdx as number]: { commentCount: { $set: topics[props.topicIdx as number].commentCount + 1 } } }))
+                        props.mutateCommentCount && props.mutateCommentCount(1)
                     }
                     if (data) {
                         commentMutate([newCommentResponse, ...data])
@@ -66,7 +66,7 @@ const Comments = (props: Props) => {
                 <br />
                 <button>Submit</button>
             </form>
-            {error ? <p>Error loading comments</p> : data ? data.map((comment, idx) => <Comment key={idx} comment={comment} topicIdx={props.topicIdx} deleteCommentFromCache={deleteCommentFromCache} />) : <p>loading</p>}
+            {error ? <p>Error loading comments</p> : data ? data.map((comment, idx) => <Comment key={idx} comment={comment} topicIdx={props.topicIdx} deleteCommentFromCache={deleteCommentFromCache} mutateCommentCount={props.mutateCommentCount} />) : <p>loading</p>}
         </div>
     )
 }

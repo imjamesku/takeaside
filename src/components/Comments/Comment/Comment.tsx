@@ -13,16 +13,17 @@ interface Props {
     comment: CommentData;
     deleteCommentFromCache: (commentId: number) => void;
     topicIdx?: number;
+    mutateCommentCount?: (addend: number) => void;
 }
 
-const Comment = ({ comment, deleteCommentFromCache, topicIdx }: Props) => {
+const Comment = ({ comment, deleteCommentFromCache, topicIdx, mutateCommentCount }: Props) => {
 
     function deleteComment(id: number) {
         commentService.deleteComment(id)
             .then(() => {
                 deleteCommentFromCache(id)
                 if (topicIdx || topicIdx === 0) {
-                    mutate('/topics', (topics: Array<Topic>) => update(topics, { [topicIdx]: { commentCount: { $set: topics[topicIdx].commentCount - 1 } } }))
+                    mutateCommentCount && mutateCommentCount(-1)
                 }
             })
             .catch(error => {

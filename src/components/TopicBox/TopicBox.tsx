@@ -17,9 +17,11 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 interface Props {
     topic: Topic;
     topicIdx: number;
+    mutateCommentCount: (addend: number) => void;
+    mutateVoteCount: (optionId: number) => void;
 }
 
-const TopicBox = ({ topic, topicIdx }: Props) => {
+const TopicBox = ({ topic, topicIdx, mutateCommentCount, mutateVoteCount }: Props) => {
     const [copied, setCopied] = useState(false)
     const leftLength = topic.left.count
     const rightLength = topic.right.count
@@ -29,11 +31,7 @@ const TopicBox = ({ topic, topicIdx }: Props) => {
         if (auth.loggedIn && auth.user) {
             topicService.vote(optionId)
                 .then(data => {
-                    if (optionId === topic.left.id) {
-                        mutate('/topics', (topics: Array<Topic>) => update(topics, { [topicIdx]: { left: { count: { $set: topic.left.count + 1 } } } }))
-                    } else if (optionId === topic.right.id) {
-                        mutate('/topics', (topics: Array<Topic>) => update(topics, { [topicIdx]: { right: { count: { $set: topic.right.count + 1 } } } }))
-                    }
+                    mutateVoteCount(optionId)
                 })
                 .catch(error => {
                     if (error.response) {
@@ -100,7 +98,7 @@ const TopicBox = ({ topic, topicIdx }: Props) => {
                 ariaHideApp={false}>
                 <button className={styles.closeButton} onClick={() => setCommentsSectionIsOpen(false)}>x</button>
                 <div className={styles.commentsContainer}>
-                    <Comments centered topicId={topic.id} topicIdx={topicIdx} />
+                    <Comments centered topicId={topic.id} topicIdx={topicIdx} mutateCommentCount={mutateCommentCount}/>
                 </div>
 
             </ReactModal>
