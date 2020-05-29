@@ -5,9 +5,6 @@ import moment from 'moment'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../_reducers'
 import { commentService } from '../../../_services/comment._service'
-import { mutate } from 'swr'
-import Topic from '../../../_types/Topic'
-import update from 'immutability-helper'
 
 interface Props {
     comment: CommentData;

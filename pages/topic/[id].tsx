@@ -12,11 +12,10 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../src/_reducers'
 import { useRouter } from 'next/router'
 import instance from '../../src/_helpers/axios.server'
-import update from 'immutability-helper'
 import Comments from '../../src/components/Comments/Comments'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import Link from 'next/link'
-
+import produce from 'immer'
 
 interface Props {
     serverTopicData: Topic;
@@ -38,10 +37,14 @@ const TopicDetailPage = ({ serverTopicData, error }: Props) => {
                         return
                     }
                     if (optionId === topicData.left.id) {
-                        mutate(update(topicData, { left: { count: { $set: topicData.left.count + 1 } } }))
+                        mutate(produce(topicData, draft => {
+                            draft.left.count++
+                        }))
 
                     } else if (optionId === topicData.right.id) {
-                        mutate(update(topicData, { right: { count: { $set: topicData.right.count + 1 } } }))
+                        mutate(produce(topicData, draft => {
+                            draft.right.count++
+                        }))
                     }
                 })
                 .catch(error => {

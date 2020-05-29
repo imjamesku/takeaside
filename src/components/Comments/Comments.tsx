@@ -8,9 +8,6 @@ import { useRouter } from 'next/router'
 import useSWR from 'swr'
 import axios from '../../_helpers/axios'
 import { commentService } from '../../_services/comment._service'
-import { mutate } from 'swr'
-import update from 'immutability-helper'
-import Topic from '../../_types/Topic'
 
 interface Props {
     topicId: number;

@@ -9,8 +9,8 @@ import CreateTopicForm from '../CreateTopicForm/CreateTopicForm'
 import { useRouter } from 'next/router'
 import useSWR, { useSWRPages } from 'swr'
 import axios from '../../_helpers/axios'
-import update from 'immutability-helper'
 import TopicPageResponse from '../../_types/TopicPageResponse'
+import produce from "immer"
 interface Props {
 
 }
@@ -36,16 +36,22 @@ const TopicList = (props: Props) => {
                     if (!data) {
                         return
                     }
-                    mutate({ nextOffset: data.nextOffset, topicResourceList: update(data.topicResourceList, { [index]: { commentCount: { $set: data.topicResourceList[index].commentCount + addend } } }) })
+                    mutate(produce(data, draft => {
+                        draft.topicResourceList[index].commentCount += addend
+                    }))
                 }
                 function mutateVoteCount(optionId: number) {
                     if (!data) {
                         return
                     }
                     if (topicData.left.id === optionId) {
-                        mutate({ nextOffset: data.nextOffset, topicResourceList: update(data.topicResourceList, { [index]: { left: { count: { $set: topicData.left.count + 1 } } } }) })
+                        mutate(produce(data, draft => {
+                            draft.topicResourceList[index].left.count++
+                        }))
                     } else if (topicData.right.id == optionId) {
-                        mutate({ nextOffset: data.nextOffset, topicResourceList: update(data.topicResourceList, { [index]: { right: { count: { $set: topicData.right.count + 1 } } } }) })
+                        mutate(produce(data, draft => {
+                            draft.topicResourceList[index].right.count++
+                        }))
                     }
                 }
                 return <TopicBox key={index} topic={topicData} topicIdx={index} mutateCommentCount={mutateCommentCount} mutateVoteCount={mutateVoteCount} />
