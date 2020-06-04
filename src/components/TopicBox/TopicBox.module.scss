@@ -24,7 +24,6 @@
             cursor: pointer;
             transition: all 0.3s;
             &:hover {
-                transform: scale(1.1);
                 color: lighten($color: $right-color, $amount: 10%);
             }
         }
