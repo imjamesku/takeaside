@@ -1,19 +1,17 @@
-import React from 'react'
-import SignIn from '../src/components/SignIn/SignIn'
-import Layout from '../src/components/Layout/Layout'
+import React from "react";
+import SignIn from "../src/components/SignIn/SignIn";
+import Layout from "../src/components/Layout/Layout";
 
-interface Props {
-
-}
+interface Props {}
 
 const signin = (props: Props) => {
-    return (
-        <div>
-            <Layout>
-                <SignIn />
-            </Layout>
-        </div>
-    )
-}
+  return (
+    <div>
+      <Layout title="Log in | imbiased">
+        <SignIn />
+      </Layout>
+    </div>
+  );
+};
 
-export default signin
+export default signin;
