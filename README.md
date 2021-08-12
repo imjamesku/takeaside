@@ -1,7 +1,8 @@
 # imbiased
+
 Voting platform built with next.js
 
-Demo: https://imbiased.net
+Demo: https://biased.vercel.app
 
 ## Deploy your own
 
