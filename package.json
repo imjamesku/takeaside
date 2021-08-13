@@ -19,7 +19,7 @@
     "immer": "^6.0.9",
     "isomorphic-unfetch": "3.0.0",
     "moment": "^2.26.0",
-    "next": "^9.4.0",
+    "next": "^11.1.0",
     "react": "^16.12.0",
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.12.0",
